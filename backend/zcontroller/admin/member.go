@@ -45,11 +45,11 @@ func (c *cMember) Edit(ctx g.Ctx, req *adminApi.MemberEditReq) (res *adminApi.Me
 }
 
 // Delete 删除用户
-func (c *cMember) Delete(ctx g.Ctx, req *adminApi.DeleteReq) (res *adminApi.DeleteRes, err error) {
+func (c *cMember) Delete(ctx g.Ctx, req *adminApi.MemberDeleteReq) (res *adminApi.MemberDeleteRes, err error) {
 	if err = zservice.AdminMember().Delete(ctx, &req.MemberDeleteInput); err != nil {
 		return nil, err
 	}
-	return &adminApi.DeleteRes{}, nil
+	return &adminApi.MemberDeleteRes{}, nil
 }
 
 // UpdateProfile 更新用户资料

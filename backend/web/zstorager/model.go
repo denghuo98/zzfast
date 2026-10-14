@@ -1,11 +1,42 @@
 package zstorager
 
 import (
+	"context"
+
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gtime"
-
-	"github.com/denghuo98/zfast/internal/model/entity"
 )
+
+// Attachment 附件记录（与数据访问层解耦的通用模型）
+// 由 AttachmentRepository 负责持久化，字段与 entity.SysAttachment 保持一致以便转换
+type Attachment struct {
+	Id        int64       `json:"id"`
+	AppId     string      `json:"appId"`
+	MemberId  int64       `json:"memberId"`
+	CateId    uint64      `json:"cateId"`
+	Drive     string      `json:"drive"`
+	Name      string      `json:"name"`
+	Kind      string      `json:"kind"`
+	MimeType  string      `json:"mimeType"`
+	NaiveType string      `json:"naiveType"`
+	Path      string      `json:"path"`
+	FileUrl   string      `json:"fileUrl"`
+	Size      int64       `json:"size"`
+	Ext       string      `json:"ext"`
+	Md5       string      `json:"md5"`
+	Status    int         `json:"status"`
+	CreatedAt *gtime.Time `json:"createdAt"`
+	UpdatedAt *gtime.Time `json:"updatedAt"`
+}
+
+// AttachmentRepository 附件记录存储接口
+// 由使用方（service 层）注入实现，避免 zstorager 直接依赖数据访问层（internal/dao、internal/model）
+type AttachmentRepository interface {
+	// HasFile 按 md5 查询附件记录，不存在返回 nil
+	HasFile(ctx context.Context, md5 string) (*Attachment, error)
+	// Create 写入附件记录并返回自增 ID
+	Create(ctx context.Context, a *Attachment) (int64, error)
+}
 
 // FileMeta 文件元数据
 type FileMeta struct {
@@ -39,11 +70,11 @@ type CheckMultipartParams struct {
 }
 
 type CheckMultipartModel struct {
-	UploadId        string                `json:"uploadId"        dc:"上传事件ID"`
-	Attachment      *entity.SysAttachment `json:"attachment"      dc:"附件"`
-	WaitUploadIndex []int                 `json:"waitUploadIndex" dc:"等待上传的分片索引"`
-	Progress        float64               `json:"progress"        dc:"上传进度"`
-	SizeFormat      string                `json:"sizeFormat"      dc:"文件大小"`
+	UploadId        string      `json:"uploadId"        dc:"上传事件ID"`
+	Attachment      *Attachment `json:"attachment"      dc:"附件"`
+	WaitUploadIndex []int       `json:"waitUploadIndex" dc:"等待上传的分片索引"`
+	Progress        float64     `json:"progress"        dc:"上传进度"`
+	SizeFormat      string      `json:"sizeFormat"      dc:"文件大小"`
 }
 
 // UploadPartParams 分片上传
@@ -59,7 +90,7 @@ type UploadPartParams struct {
 }
 
 type UploadPartModel struct {
-	Attachment *entity.SysAttachment `json:"attachment" dc:"附件"`
-	Progress   float64               `json:"progress"   dc:"上传进度"`
-	Finish     bool                  `json:"finish"     dc:"是否完成"`
+	Attachment *Attachment `json:"attachment" dc:"附件"`
+	Progress   float64     `json:"progress"   dc:"上传进度"`
+	Finish     bool        `json:"finish"     dc:"是否完成"`
 }

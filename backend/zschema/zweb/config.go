@@ -31,33 +31,33 @@ type TokenConfig struct {
 // UploadConfig 上传配置
 type UploadConfig struct {
 	// 通用配置
-	Drive string `json:"uploadDrive"`
+	Drive string `json:"drive"`
 	// 最大文件体积，单位 Mb
-	FileSize int64  `json:"uploadFileSize"`
-	FileType string `json:"uploadFileType"`
+	FileSize int64  `json:"fileSize"`
+	FileType string `json:"fileType"`
 	// 最大图片体积，单位 Mb
-	ImageSize int64  `json:"uploadImageSize"`
-	ImageType string `json:"uploadImageType"`
+	ImageSize int64  `json:"imageSize"`
+	ImageType string `json:"imageType"`
 	// 本地存储配置
-	LocalPath string `json:"uploadLocalPath"`
+	LocalPath string `json:"localPath"`
 	// 腾讯云cos配置
-	CosSecretId  string `json:"uploadCosSecretId"`
-	CosSecretKey string `json:"uploadCosSecretKey"`
-	CosBucketURL string `json:"uploadCosBucketURL"`
-	CosPath      string `json:"uploadCosPath"`
+	CosSecretId  string `json:"cosSecretId"`
+	CosSecretKey string `json:"cosSecretKey"`
+	CosBucketURL string `json:"cosBucketURL"`
+	CosPath      string `json:"cosPath"`
 	// 阿里云oss配置
-	OssSecretId  string `json:"uploadOssSecretId"`
-	OssSecretKey string `json:"uploadOssSecretKey"`
-	OssEndpoint  string `json:"uploadOssEndpoint"`
-	OssBucketURL string `json:"uploadOssBucketURL"`
-	OssPath      string `json:"uploadOssPath"`
-	OssBucket    string `json:"uploadOssBucket"`
+	OssSecretId  string `json:"ossSecretId"`
+	OssSecretKey string `json:"ossSecretKey"`
+	OssEndpoint  string `json:"ossEndpoint"`
+	OssBucketURL string `json:"ossBucketURL"`
+	OssPath      string `json:"ossPath"`
+	OssBucket    string `json:"ossBucket"`
 	// minio配置
-	MinioAccessKey string `json:"uploadMinioAccessKey"`
-	MinioSecretKey string `json:"uploadMinioSecretKey"`
-	MinioEndpoint  string `json:"uploadMinioEndpoint"`
-	MinioUseSSL    int    `json:"uploadMinioUseSSL"`
-	MinioPath      string `json:"uploadMinioPath"`
-	MinioBucket    string `json:"uploadMinioBucket"`
-	MinioDomain    string `json:"uploadMinioDomain"`
+	MinioAccessKey string `json:"minioAccessKey"`
+	MinioSecretKey string `json:"minioSecretKey"`
+	MinioEndpoint  string `json:"minioEndpoint"`
+	MinioUseSSL    int    `json:"minioUseSSL"`
+	MinioPath      string `json:"minioPath"`
+	MinioBucket    string `json:"minioBucket"`
+	MinioDomain    string `json:"minioDomain"`
 }

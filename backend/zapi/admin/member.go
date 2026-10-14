@@ -34,13 +34,13 @@ type MemberEditReq struct {
 type MemberEditRes struct {
 }
 
-// DeleteReq 删除用户
-type DeleteReq struct {
+// MemberDeleteReq 删除用户
+type MemberDeleteReq struct {
 	g.Meta `path:"/member/delete" method:"post" tags:"SYS-02-用户管理" summary:"删除用户"`
 	adminSchema.MemberDeleteInput
 }
 
-type DeleteRes struct {
+type MemberDeleteRes struct {
 }
 
 // ------------- 以下是个人用户修改自己信息 -------------

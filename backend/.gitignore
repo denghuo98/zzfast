@@ -45,6 +45,9 @@ temp/
 # Build output
 dist/
 
+# 上传文件本地存储
+public/upload-files-*
+
 *.db
 *.sqlite
 *config.yaml

@@ -57,19 +57,19 @@
 
 ## P2 — 工程化 / 可维护性
 
-- [ ] **15. 打破 `web/` 对 `internal/` 的依赖**
+- [x] **15. 打破 `web/` 对 `internal/` 的依赖**
   `zstorager` 直接 import `internal/model/entity`，将通用模型下沉或改用 `zschema` 类型，保证 `web/` 可独立为 SDK。
 
-- [ ] **16. 配置字段命名对齐**
+- [x] **16. 配置字段命名对齐**
   `config.example.yaml` 的 `drive/fileSize` 等与 `webSchema.UploadConfig` 的 `uploadDrive/uploadFileSize` 命名不一致，统一 JSON tag 映射，去除宽松匹配的坑。
 
-- [ ] **17. 消除通用命名重名风险**
+- [x] **17. 消除通用命名重名风险**
   `zapi/admin` 与 `zapi/common` 的 `DeleteReq/DeleteRes` 等通用名改为带领域前缀（如 `MemberDeleteReq`），降低误用。
 
-- [ ] **18. `z` 前缀包重命名（可选，大重构）**
-  `zapi/zcontroller/zservice/zdb/zconsts/zschema/zcmd/zqueues` 评估改为语义化命名，需全仓库引用同步。
+- [x] **18. `z` 前缀包重命名（取消）**
+  经评估决定**保留 `z` 前缀**：① 明确标识框架内部包，避免与标准库/第三方包名（db/api/cmd/service/consts 等）冲突；② 收益仅去掉一个字母；③ 全仓库 176+ 文件 import 替换风险高。
 
-- [ ] **19. 测试前缀规范化（可选）**
+- [x] **19. 测试前缀规范化**
   `zz_*_test.go` 改为 `*_test.go`，评估对构建工具/CI 的影响。
 
 ---
