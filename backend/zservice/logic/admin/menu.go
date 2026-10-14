@@ -52,6 +52,15 @@ func (s *sMenu) VerifyUnique(ctx g.Ctx, in *adminSchema.VerifyUniqueInput) error
 }
 
 func (s *sMenu) Edit(ctx g.Ctx, in *adminSchema.MenuEditInput) error {
+	// component 字段在表中为 NOT NULL，但目录/按钮类型不需要组件路径，此处给占位值避免约束冲突
+	if in.Component == "" {
+		if in.Type == 1 {
+			in.Component = "Layout"
+		} else {
+			in.Component = "#"
+		}
+	}
+
 	// 验证唯一性
 	if err := s.VerifyUnique(ctx, &adminSchema.VerifyUniqueInput{
 		Id: in.Id,

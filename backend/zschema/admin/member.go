@@ -70,7 +70,7 @@ type MemberUpdateRoleInput struct {
 
 // LoginMemberInfoOutput 登录用户信息输出
 type LoginMemberInfoOutput struct {
-	Id       int64
+	Id       int64  `json:"id"       dc:"用户ID"`
 	Username string `json:"username" dc:"账号"`
 	RealName string `json:"realName" dc:"真实姓名"`
 	Avatar   string `json:"avatar" dc:"头像"`

@@ -9,3 +9,6 @@ config.yaml
 tmp/
 logs/
 dist/
+
+# playwright-cli 调试产物
+.playwright-cli/
