@@ -1,0 +1,62 @@
+name: Release
+
+# 后端发版仅需在 GitHub 打 tag（v*）记录版本，不做自动构建；
+# 前端 @zzfast/admin-layer 在 tag 推送时发布到公网 npm。
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-frontend:
+    name: Build admin-layer (验证)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+          cache-dependency-path: templates/minimal/pnpm-lock.yaml
+
+      - name: Install dependencies
+        working-directory: templates/minimal
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        working-directory: templates/minimal
+        run: pnpm build
+
+  publish-admin-layer:
+    name: Publish @zzfast/admin-layer
+    needs: build-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Set version from tag
+        working-directory: layers/admin-layer
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync('package.json','utf8'));p.version=process.argv[1];fs.writeFileSync('package.json',JSON.stringify(p,null,2)+'\n')" "$VERSION"
+
+      - name: Publish to npm
+        working-directory: layers/admin-layer
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

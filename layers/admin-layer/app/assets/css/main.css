@@ -1,0 +1,141 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* @theme {
+  --text-xs: 0.8125rem;            
+  --text-xs--line-height: calc(1 / 0.8125);
+  --text-sm: 1rem;                  
+  --text-sm--line-height: calc(1.25 / 1);
+  --text-base: 1.125rem;           
+  --text-base--line-height: calc(1.5 / 1.125);
+} */
+
+@theme static {
+  --color-green-50: oklch(90.98% 0.04338 166.72);
+  --color-green-100: oklch(88.46% 0.05417 166.29);
+  --color-green-200: #00bd7d;
+  --color-green-300: #00a36c;
+  --color-green-400: #008a5b;
+  --color-green-500: #00704A;
+  --color-green-600: #005739;
+  --color-green-700: #003d28;
+  --color-green-800: #002417;
+  --color-green-900: #002417;
+
+  /* slate 深色阶覆写：与 bg-gray-950（oklch(21% 0.034 264.665)）统一，
+     消除原生 slate 的蓝色底调，与 sidebar dark bg-gray-950 形成一体。 */
+  --color-slate-800: oklch(27.9% 0.02 264);
+  --color-slate-900: oklch(21% 0.034 264.665);
+  --color-slate-950: oklch(15% 0.025 264);
+}
+
+/* 侧边栏菜单选中项背景色 */
+[data-active=true] > a::before {
+  background-color: var(--ui-primary) !important;
+  opacity: 0.1;
+}
+
+/* 全局：可交互元素悬浮展示手型光标 */
+button:not(:disabled),
+[role="button"],
+[role="combobox"],
+[role="checkbox"],
+[role="radio"],
+[role="menuitem"],
+[role="option"],
+[role="tab"],
+[role="switch"],
+[role="slider"],
+input[type="search"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="time"],
+input[type="url"],
+input[type="tel"],
+input[type="file"],
+select,
+textarea {
+  cursor: pointer;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled,
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+/* ===== TipTap Editor 表格样式 ===== */
+.tiptap table {
+  border-collapse: collapse;
+  margin: 0;
+  overflow: hidden;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.tiptap td,
+.tiptap th {
+  border: 1px solid var(--ui-border);
+  box-sizing: border-box;
+  min-width: 1em;
+  padding: 8px 12px;
+  position: relative;
+  vertical-align: top;
+}
+
+.tiptap th {
+  background-color: var(--ui-bg-muted);
+  font-weight: 600;
+  text-align: left;
+}
+
+.tiptap .selectedCell::after {
+  background: var(--ui-bg-muted);
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.tiptap .column-resize-handle {
+  background-color: var(--ui-primary);
+  bottom: -2px;
+  position: absolute;
+  right: -2px;
+  pointer-events: none;
+  top: 0;
+  width: 4px;
+}
+
+.tiptap p {
+  margin: 0;
+}
+
+/* Task List：checkbox 和文字同行 */
+.tiptap [data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+}
+
+.tiptap [data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.tiptap [data-type="taskList"] li > label {
+  flex: 0 0 auto;
+  margin-top: 0.25rem;
+  user-select: none;
+}
+
+.tiptap [data-type="taskList"] li > div {
+  flex: 1 1 auto;
+}

@@ -1,0 +1,73 @@
+import type { ComponentDefinition, ComponentsMap, MFormConfig } from '../../types/form'
+import UCheckbox from '@nuxt/ui/components/Checkbox.vue'
+import UInput from '@nuxt/ui/components/Input.vue'
+import UInputNumber from '@nuxt/ui/components/InputNumber.vue'
+import USelect from '@nuxt/ui/components/Select.vue'
+import * as z from 'zod'
+
+export { type ComponentDefinition }
+
+export const COMPONENTS_MAP: ComponentsMap = {
+  number: () => ({ component: UInputNumber }),
+  string: () => ({ component: UInput }),
+  boolean: () => ({ component: UCheckbox }),
+  enum: ({ zodType }) => ({
+    component: USelect,
+    componentProps: {
+      items: Object.values(zodType.def.entries),
+    },
+  }),
+  array: ({ key, zodType, config, state }) => {
+    const innerType = zodType.def.element
+    if (innerType instanceof z.ZodEnum) {
+      const result = mapZodTypeToComponent(key, zodType.unwrap(), config, state) as any
+      result.componentProps.multiple = true
+      return result
+    }
+    return {}
+  },
+  default: ({ key, zodType, state, config }) => {
+    (state as any)[key] = zodType.def.defaultValue
+    return mapZodTypeToComponent(key, zodType.unwrap(), config, state)
+  },
+  optional: ({ key, zodType, config, state }) => mapModifier(key, zodType, config, state, 'optional'),
+  nullable: ({ key, zodType, config, state }) => mapModifier(key, zodType, config, state, 'nullable'),
+  email: () => ({
+    component: UInput,
+    componentProps: { type: 'text' },
+  }),
+}
+
+export function mapZodTypeToComponent(
+  key: string,
+  zodType: any,
+  config: MFormConfig,
+  state: any,
+): ComponentDefinition | null {
+  const zodTypeKey = zodType._def.format ?? zodType._def.type
+  const component = config.components?.[zodTypeKey]
+  if (!component) {
+    console.warn(`[MForm] Unsupported Zod type: ${zodTypeKey}`)
+    console.warn('[MForm] Please update your MForm configuration or check the Zod schema')
+    return null
+  }
+  return component({ key, zodType, config, state })
+}
+
+function mapModifier(
+  key: string,
+  zodType: any,
+  config: MFormConfig,
+  state: any,
+  modifierKey: string,
+): ComponentDefinition | null {
+  const result = mapZodTypeToComponent(key, zodType.unwrap(), config, state)
+  if (result) {
+    result.componentProps ??= {}
+    result.componentProps.modelModifiers = {
+      ...result.componentProps.modelModifiers,
+      [modifierKey]: true,
+    }
+  }
+  return result
+}
