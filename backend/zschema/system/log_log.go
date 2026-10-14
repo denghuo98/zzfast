@@ -1,0 +1,44 @@
+package system
+
+import (
+	"github.com/gogf/gf/v2/os/gtime"
+
+	"github.com/denghuo98/zfast/internal/model/entity"
+	commonSchema "github.com/denghuo98/zfast/zschema/common"
+	"github.com/denghuo98/zfast/zschema/zform"
+)
+
+type SysLoginLogPushInput struct {
+	Response *commonSchema.SiteLoginOutput
+	Error    error
+}
+
+type SysLoginLogDeleteInput struct {
+	Id int64
+}
+
+type SysLoginLogListInput struct {
+	zform.PageReq
+	Username string        `json:"username" dc:"账号"`
+	Status   int           `json:"status" dc:"状态"`
+	LoginAt  []*gtime.Time `json:"loginAt" dc:"登录时间"`
+	LoginIp  string        `json:"loginIp" dc:"登录IP"`
+}
+
+type SysLoginLogListOuputItem struct {
+	entity.SysLoginLog
+	Os      string `json:"os" dc:"操作系统"`
+	Browser string `json:"browser" dc:"浏览器"`
+}
+
+type SysLoginLogListOutput struct {
+	List []*SysLoginLogListOuputItem `json:"list" dc:"列表"`
+}
+
+// SysLoginLogExportInput 导出登录日志输入（复用 ListInput 的筛选条件，但不需要分页）
+type SysLoginLogExportInput struct {
+	Username string        `json:"username" dc:"账号"`
+	Status   int           `json:"status" dc:"状态"`
+	LoginAt  []*gtime.Time `json:"loginAt" dc:"登录时间"`
+	LoginIp  string        `json:"loginIp" dc:"登录IP"`
+}

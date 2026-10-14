@@ -1,0 +1,11 @@
+# 数据库文件
+*.db
+*.sqlite
+
+# 运行时配置
+config.yaml
+
+# 临时文件
+tmp/
+logs/
+dist/

@@ -1,0 +1,91 @@
+# ZZFrame 配置文件模板
+# 复制此文件为 config.yaml 并根据环境修改
+# 注意：config.yaml 已被 .gitignore 忽略，不会提交到仓库
+
+server:
+  address: ":8000"
+  serverRoot: "public"
+  serverAgent: "zzframe"
+
+# 数据库配置（至少配置一个，否则使用 SQLite 本地文件 zzframe.db）
+# database:
+#   default:
+#     link: "mysql:root:password@tcp(127.0.0.1:3306)/zzframe?charset=utf8mb4&parseTime=true&loc=Local"
+
+# 系统核心配置
+system:
+  # 运行模式：dev | test | staging | prod（默认 prod）
+  mode: "dev"
+
+  # 缓存配置
+  cache:
+    adapter: "file"        # file | memory | redis
+    fileDir: "tmp/cache"   # file adapter 时生效
+
+  # JWT Token 认证配置
+  token:
+    secretKey: "please-change-this-secret-key-to-32-bytes-minimum!!!"   # 至少32位，生产环境务必修改！
+    expires: 86400         # 过期时间（秒）
+    refreshInterval: 3600  # 自动刷新间隔（秒）
+    maxRefreshTimes: 10    # 最大刷新次数，-1 表示不限
+    multiLogin: true       # 是否允许多端同时登录
+    autoRefresh: true      # 是否自动刷新
+
+  # 超级管理员配置（密码请使用 bcrypt 或至少修改默认值）
+  superAdmin:
+    username: "superAdmin"         # 默认用户名
+    password: "请修改为强密码"      # 生产环境务必修改！
+
+  # 匿名身份访问（启用后全站免鉴权，仅适合演示/开发）
+  anonymous:
+    enabled: false
+    identity:
+      username: "anonymous"
+      realName: "游客"
+
+  # 文件上传配置
+  upload:
+    drive: "local"         # local | cos | oss | minio
+    fileSize: 50           # 文件大小限制（MB）
+    fileType: "doc,docx,dot,xls,xlsx,xltx,ppt,pptx,pdf,txt,csv,html,xml,pptm,md"
+    imageSize: 10          # 图片大小限制（MB）
+    imageType: "jpg,png,jpeg,gif,webp"
+    localPath: "upload-files-"  # 本地存储路径前缀
+    cosSecretId: ""
+    cosSecretKey: ""
+    cosBucketURL: ""
+    cosPath: "attachment/"
+    ossSecretId: ""
+    ossSecretKey: ""
+    ossEndpoint: ""
+    ossBucketURL: ""
+    ossPath: "attachment/"
+    ossBucket: ""
+    minioAccessKey: ""
+    minioSecretKey: ""
+    minioEndpoint: ""
+    minioUseSSL: 0
+    minioPath: "attachment/"
+    minioBucket: ""
+    minioDomain: ""
+
+  # 不需要鉴权的路由白名单（精确匹配，不含通配符）
+  # 说明：/admin/site/* 等公共接口已在 AdminAuth 中间件之前绑定，天然免鉴权，无需在此列出。
+  # 动态菜单 /admin/menu/dynamic 依赖登录态（按角色过滤菜单），不可匿名访问。
+  # 仅当存在「绑定了 AdminAuth 但又需匿名访问」的路由时，才需在此添加（须写全 /admin 前缀）。
+  exceptAuth: []
+
+  # 请求加密密钥（AES-GCM，16/24/32字节，前后端保持一致），生产环境务必修改
+  requestEncryptKey: "1234567890abcdef"
+
+# 消息队列配置
+queue:
+  switch: true
+  driver: "disk"           # 当前仅支持 disk，Redis/RocketMQ/Kafka 为预留扩展点
+  groupName: "default"
+  disk:
+    path: "./tmp/diskqueue"
+    batchSize: 100
+    batchTime: 1            # 秒
+    segmentSize: 10485760   # 10MB
+    segmentLimit: 3000

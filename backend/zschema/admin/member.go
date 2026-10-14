@@ -1,0 +1,116 @@
+package admin
+
+import (
+	"github.com/gogf/gf/v2/os/gtime"
+
+	"github.com/denghuo98/zfast/internal/model/entity"
+	"github.com/denghuo98/zfast/zschema/zform"
+)
+
+// MemberAddInput 服务层-系统用户新增入参
+type MemberAddInput struct {
+	*MemberEditInput
+	Salt string `json:"salt" dc:"密码盐"`
+}
+
+// MemberDeleteInput 服务层-系统用户删除入参
+type MemberDeleteInput struct {
+	Id int64
+}
+
+// MemberEditInput 服务层-系统用户编辑入参
+type MemberEditInput struct {
+	Id           int64
+	Username     string  `json:"username"   v:"required#账号不能为空"           dc:"帐号"`
+	PasswordHash string  `json:"passwordHash"                                  dc:"密码hash"`
+	Password     string  `json:"password"                                      dc:"密码"`
+	RealName     string  `json:"realName"                                      dc:"真实姓名"`
+	RoleIds      []int64 `json:"roleIds"                                       dc:"角色ID"`
+	Avatar       string  `json:"avatar"                                        dc:"头像"`
+	Sex          int     `json:"sex"                                           dc:"性别"`
+	Email        string  `json:"email"                                         dc:"邮箱"`
+	Mobile       string  `json:"mobile"                                        dc:"手机号码"`
+	Remark       string  `json:"remark"                                        dc:"备注"`
+	Status       int     `json:"status"                                        dc:"状态"`
+}
+
+// MemberUpdateProfileInput 服务层-系统用户更新个人信息入参
+type MemberUpdateProfileInput struct {
+	Id       int64
+	Avatar   string `json:"avatar"   v:"url#头像格式不正确"     dc:"头像"`
+	RealName string `json:"realName"  v:"required#真实姓名不能为空"       dc:"真实姓名"`
+	Email    string `json:"email"     v:"email#邮箱格式不正确"        dc:"邮箱"`
+	Mobile   string `json:"mobile"    v:"phone#手机号格式不正确"        dc:"手机号码"`
+	Sex      int    `json:"sex"         dc:"性别"`
+}
+
+// MemberUpdatePasswordInput 服务层-系统用户更新密码入参
+type MemberUpdatePasswordInput struct {
+	Id          int64
+	OldPassword string `json:"oldPassword" v:"required#旧密码不能为空" dc:"旧密码"`
+	NewPassword string `json:"newPassword" v:"required#新密码不能为空" dc:"新密码"`
+}
+
+// MemberResetPwdInput 服务层-系统用户重置密码入参
+type MemberResetPwdInput struct {
+	Id       int64
+	Password string `json:"password" v:"required#密码不能为空" dc:"密码"`
+}
+
+// MemberResetPasswordInput 服务层-系统用户重置密码入参（使用默认密码）
+type MemberResetPasswordInput struct {
+	Id int64 `json:"id" v:"required|min:1#用户ID不能为空|用户ID不能小于1" dc:"用户ID"`
+}
+
+// MemberUpdateRoleInput 服务层-系统用户更新角色入参
+type MemberUpdateRoleInput struct {
+	Id      int64
+	RoleIds []int64 `json:"roleIds" dc:"角色ID"`
+}
+
+// LoginMemberInfoOutput 登录用户信息输出
+type LoginMemberInfoOutput struct {
+	Id       int64
+	Username string `json:"username" dc:"账号"`
+	RealName string `json:"realName" dc:"真实姓名"`
+	Avatar   string `json:"avatar" dc:"头像"`
+	Sex      int    `json:"sex" dc:"性别"`
+	Email    string `json:"email" dc:"邮箱"`
+	Mobile   string `json:"mobile" dc:"手机号码"`
+}
+
+// MemberListInput 服务层-系统用户列表入参
+type MemberListInput struct {
+	zform.PageReq
+	Username string `json:"username" dc:"账号"`
+	RealName string `json:"realName" dc:"真实姓名"`
+	Email    string `json:"email" dc:"邮箱"`
+	Mobile   string `json:"mobile" dc:"手机号码"`
+	Status   int    `json:"status" dc:"状态"`
+}
+
+// MemberListOutputItem 系统用户列表输出项
+// 显式声明字段以避免泄露 PasswordHash/Salt/PasswordResetToken 等敏感信息
+type MemberListOutputItem struct {
+	Id           int64       `json:"id"           orm:"id"             dc:"用户ID"`
+	DeptId       int64       `json:"deptId"       orm:"dept_id"        dc:"部门ID"`
+	RealName     string      `json:"realName"     orm:"real_name"      dc:"真实姓名"`
+	Username     string      `json:"username"     orm:"username"       dc:"帐号"`
+	Avatar       string      `json:"avatar"       orm:"avatar"         dc:"头像"`
+	Sex          int         `json:"sex"          orm:"sex"            dc:"性别"`
+	Email        string      `json:"email"        orm:"email"          dc:"邮箱"`
+	Mobile       string      `json:"mobile"       orm:"mobile"         dc:"手机号码"`
+	LastActiveAt *gtime.Time `json:"lastActiveAt" orm:"last_active_at" dc:"最后活跃时间"`
+	Remark       string      `json:"remark"       orm:"remark"         dc:"备注"`
+	Status       int         `json:"status"       orm:"status"         dc:"状态"`
+	CreatedAt    *gtime.Time `json:"createdAt"    orm:"created_at"     dc:"创建时间"`
+	UpdatedAt    *gtime.Time `json:"updatedAt"    orm:"updated_at"     dc:"修改时间"`
+
+	RoleIds []int64             `json:"roleIds" dc:"绑定的角色 ID"`
+	Roles   []*entity.AdminRole `json:"roles"   dc:"绑定的角色列表"`
+}
+
+// MemberListOutput 服务层-系统用户列表输出
+type MemberListOutput struct {
+	List []*MemberListOutputItem `json:"list" dc:"用户列表"`
+}
