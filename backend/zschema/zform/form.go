@@ -1,6 +1,6 @@
 package zform
 
-import "github.com/denghuo98/zfast/zconsts"
+import "github.com/denghuo98/zzfast/zconsts"
 
 type ReqPageFunc interface {
 	GetPage() int

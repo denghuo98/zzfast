@@ -10,7 +10,7 @@ import (
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gfile"
 
-	"github.com/denghuo98/zfast/web/zqueue/disk"
+	"github.com/denghuo98/zzfast/web/zqueue/disk"
 )
 
 type DiskProducerMq struct {

@@ -1,6 +1,6 @@
 # 项目结构
 
-理解 ZZFrame 的项目结构对于高效开发非常重要。
+理解 ZZFast 的项目结构对于高效开发非常重要。
 
 ## 典型项目结构
 
@@ -170,7 +170,7 @@ type AdminMember struct {
 
 ## 分层架构原则
 
-ZZFrame 采用经典的分层架构：
+ZZFast 采用经典的分层架构：
 
 ```
 请求 → Controller → Service → DAO → Database

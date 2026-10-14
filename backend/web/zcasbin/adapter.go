@@ -16,7 +16,7 @@ import (
 	"github.com/casbin/casbin/v2/persist"
 	"github.com/gogf/gf/v2/database/gdb"
 
-	"github.com/denghuo98/zfast/internal/dao"
+	"github.com/denghuo98/zzfast/internal/dao"
 )
 
 var defaultTableName = dao.AdminRoleCasbin.Table()

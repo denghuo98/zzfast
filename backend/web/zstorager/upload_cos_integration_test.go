@@ -16,8 +16,8 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/tencentyun/cos-go-sdk-v5"
 
-	"github.com/denghuo98/zfast/zconsts"
-	webSchema "github.com/denghuo98/zfast/zschema/zweb"
+	"github.com/denghuo98/zzfast/zconsts"
+	webSchema "github.com/denghuo98/zzfast/zschema/zweb"
 )
 
 func TestCosDriveUploadIntegration(t *testing.T) {
@@ -30,7 +30,7 @@ func TestCosDriveUploadIntegration(t *testing.T) {
 	bucketURL := normalizeCosBucketURL(os.Getenv("ZZ_COS_BUCKET_URL"))
 	cosPath := os.Getenv("ZZ_COS_PATH")
 	if cosPath == "" {
-		cosPath = "zzframe-test/attachment/"
+		cosPath = "zzfast-test/attachment/"
 	}
 	if secretId == "" || secretKey == "" || bucketURL == "" {
 		t.Fatal("ZZ_COS_SECRET_ID, ZZ_COS_SECRET_KEY and ZZ_COS_BUCKET_URL are required")
@@ -47,7 +47,7 @@ func TestCosDriveUploadIntegration(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	file := newUploadFileForTest(t, "zzframe-cos-integration.txt", []byte("zzframe cos integration test\n"))
+	file := newUploadFileForTest(t, "zzfast-cos-integration.txt", []byte("zzfast cos integration test\n"))
 	fullPath, err := New(zconsts.UploadDriveCos).Upload(ctx, file)
 	if err != nil {
 		t.Fatalf("upload to COS failed: %v", err)

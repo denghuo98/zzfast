@@ -3,8 +3,8 @@ package zservice
 import (
 	"github.com/gogf/gf/v2/frame/g"
 
-	"github.com/denghuo98/zfast/internal/model/entity"
-	"github.com/denghuo98/zfast/zschema/admin"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	"github.com/denghuo98/zzfast/zschema/admin"
 )
 
 // IAdminMenu 后台菜单管理接口

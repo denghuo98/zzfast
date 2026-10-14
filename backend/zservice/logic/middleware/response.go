@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"github.com/denghuo98/zfast/web/zresp"
-	"github.com/denghuo98/zfast/zconsts"
+	"github.com/denghuo98/zzfast/web/zresp"
+	"github.com/denghuo98/zzfast/zconsts"
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"

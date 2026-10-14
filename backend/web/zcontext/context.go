@@ -4,8 +4,8 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 
-	"github.com/denghuo98/zfast/zconsts"
-	webSchema "github.com/denghuo98/zfast/zschema/zweb"
+	"github.com/denghuo98/zzfast/zconsts"
+	webSchema "github.com/denghuo98/zzfast/zschema/zweb"
 )
 
 // Init 初始化上下文对象指针到上下文对象中，以便后续的请求流程可以直接修改

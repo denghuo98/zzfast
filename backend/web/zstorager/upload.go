@@ -15,11 +15,11 @@ import (
 	"github.com/gogf/gf/v2/util/grand"
 	"github.com/samber/lo"
 
-	"github.com/denghuo98/zfast/web/zcache"
-	"github.com/denghuo98/zfast/web/zcontext"
-	"github.com/denghuo98/zfast/web/zutils"
-	"github.com/denghuo98/zfast/web/zvalidate"
-	"github.com/denghuo98/zfast/zconsts"
+	"github.com/denghuo98/zzfast/web/zcache"
+	"github.com/denghuo98/zzfast/web/zcontext"
+	"github.com/denghuo98/zzfast/web/zutils"
+	"github.com/denghuo98/zzfast/web/zvalidate"
+	"github.com/denghuo98/zzfast/zconsts"
 )
 
 // UploadDrive 存储驱动

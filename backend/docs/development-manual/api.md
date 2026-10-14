@@ -1,6 +1,6 @@
 # API 参考
 
-本章节提供 ZZFrame 核心模块的 API 参考。
+本章节提供 ZZFast 核心模块的 API 参考。
 
 ## 后台管理 API
 

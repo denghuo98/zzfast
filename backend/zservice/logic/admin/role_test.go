@@ -10,11 +10,11 @@ import (
 	"github.com/gogf/gf/v2/test/gtest"
 	"github.com/samber/lo"
 
-	"github.com/denghuo98/zfast/internal/dao"
-	"github.com/denghuo98/zfast/internal/model/entity"
-	"github.com/denghuo98/zfast/zconsts"
-	"github.com/denghuo98/zfast/zschema/admin"
-	"github.com/denghuo98/zfast/zschema/zform"
+	"github.com/denghuo98/zzfast/internal/dao"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	"github.com/denghuo98/zzfast/zconsts"
+	"github.com/denghuo98/zzfast/zschema/admin"
+	"github.com/denghuo98/zzfast/zschema/zform"
 
 	_ "github.com/gogf/gf/contrib/drivers/sqlite/v2"
 )

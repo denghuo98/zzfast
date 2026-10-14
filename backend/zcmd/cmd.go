@@ -6,7 +6,7 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gcmd"
 
-	"github.com/denghuo98/zfast/web/zutils"
+	"github.com/denghuo98/zzfast/web/zutils"
 )
 
 var (

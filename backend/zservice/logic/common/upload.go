@@ -10,12 +10,12 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
 
-	"github.com/denghuo98/zfast/internal/dao"
-	"github.com/denghuo98/zfast/internal/model/entity"
-	"github.com/denghuo98/zfast/web/zstorager"
-	"github.com/denghuo98/zfast/zconsts"
-	commonSchema "github.com/denghuo98/zfast/zschema/common"
-	"github.com/denghuo98/zfast/zservice"
+	"github.com/denghuo98/zzfast/internal/dao"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	"github.com/denghuo98/zzfast/web/zstorager"
+	"github.com/denghuo98/zzfast/zconsts"
+	commonSchema "github.com/denghuo98/zzfast/zschema/common"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 type sCommonUpload struct{}

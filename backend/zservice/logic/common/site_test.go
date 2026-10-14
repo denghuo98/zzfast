@@ -5,7 +5,7 @@ import (
 
 	"github.com/gogf/gf/v2/encoding/gbase64"
 
-	"github.com/denghuo98/zfast/web/zencrypt"
+	"github.com/denghuo98/zzfast/web/zencrypt"
 )
 
 // testKey 测试用 AES 密钥（16 字节）

@@ -2,7 +2,7 @@
 
 ## 1. 简介
 
-ZZFrame 内置了基础的操作日志（Operation Log）功能，通过中间件自动记录所有写操作（POST/PUT/DELETE）的请求参数、响应结果和执行耗时。
+ZZFast 内置了基础的操作日志（Operation Log）功能，通过中间件自动记录所有写操作（POST/PUT/DELETE）的请求参数、响应结果和执行耗时。
 
 然而，仅记录请求参数往往不足以满足审计需求。例如，当管理员修改系统配置时，我们不仅需要知道"修改了配置项"，还需要知道"修改前的值是 A，修改后的值是 B"。这就需要实现**数据变更审计**。
 
@@ -277,7 +277,7 @@ func (s *sAdminMember) Edit(ctx g.Ctx, in *adminSchema.MemberEditInput) (err err
 
 ### 5.1 队列配置
 
-操作日志使用 ZZFrame 内置队列系统进行异步处理，支持磁盘队列和 Redis 队列两种模式。
+操作日志使用 ZZFast 内置队列系统进行异步处理，支持磁盘队列和 Redis 队列两种模式。
 
 #### 磁盘队列（单机推荐）
 

@@ -8,10 +8,10 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/samber/lo"
 
-	"github.com/denghuo98/zfast/web/zcache"
-	"github.com/denghuo98/zfast/web/zresp"
-	"github.com/denghuo98/zfast/zconsts"
-	"github.com/denghuo98/zfast/zservice"
+	"github.com/denghuo98/zzfast/web/zcache"
+	"github.com/denghuo98/zzfast/web/zresp"
+	"github.com/denghuo98/zzfast/zconsts"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 // AdminAuth 后台登录认证

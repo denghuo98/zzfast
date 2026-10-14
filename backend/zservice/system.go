@@ -3,9 +3,9 @@ package zservice
 import (
 	"github.com/gogf/gf/v2/frame/g"
 
-	"github.com/denghuo98/zfast/internal/model/entity"
-	systemSchema "github.com/denghuo98/zfast/zschema/system"
-	webSchema "github.com/denghuo98/zfast/zschema/zweb"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	systemSchema "github.com/denghuo98/zzfast/zschema/system"
+	webSchema "github.com/denghuo98/zzfast/zschema/zweb"
 )
 
 type ISystemConfig interface {

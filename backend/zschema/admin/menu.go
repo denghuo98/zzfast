@@ -1,8 +1,8 @@
 package admin
 
 import (
-	"github.com/denghuo98/zfast/internal/model/entity"
-	"github.com/denghuo98/zfast/zschema/zform"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	"github.com/denghuo98/zzfast/zschema/zform"
 	"github.com/gogf/gf/v2/errors/gerror"
 )
 

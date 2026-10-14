@@ -4,11 +4,11 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
 
-	"github.com/denghuo98/zfast/zcmd"
-	"github.com/denghuo98/zfast/zservice"
+	"github.com/denghuo98/zzfast/zcmd"
+	"github.com/denghuo98/zzfast/zservice"
 
-	_ "github.com/denghuo98/zfast/zdb/zmigrate"
-	_ "github.com/denghuo98/zfast/zservice/logic"
+	_ "github.com/denghuo98/zzfast/zdb/zmigrate"
+	_ "github.com/denghuo98/zzfast/zservice/logic"
 	_ "github.com/gogf/gf/contrib/nosql/redis/v2"
 )
 

@@ -7,9 +7,9 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/samber/lo"
 
-	"github.com/denghuo98/zfast/internal/model/entity"
-	"github.com/denghuo98/zfast/web/zstorager"
-	"github.com/denghuo98/zfast/zschema/zform"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	"github.com/denghuo98/zzfast/web/zstorager"
+	"github.com/denghuo98/zzfast/zschema/zform"
 )
 
 // AttachmentDeleteInp 删除附件

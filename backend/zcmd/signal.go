@@ -8,8 +8,8 @@ import (
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/gproc"
 
-	"github.com/denghuo98/zfast/web/zutils"
-	"github.com/denghuo98/zfast/zconsts"
+	"github.com/denghuo98/zzfast/web/zutils"
+	"github.com/denghuo98/zzfast/zconsts"
 )
 
 var (

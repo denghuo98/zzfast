@@ -8,7 +8,7 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
 
-	"github.com/denghuo98/zfast/web/zqueue/disk"
+	"github.com/denghuo98/zzfast/web/zqueue/disk"
 )
 
 // MqProducer 消息生产者

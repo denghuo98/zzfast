@@ -7,8 +7,8 @@ import (
 	"github.com/gogf/gf/v2/os/gcache"
 	"github.com/gogf/gf/v2/os/gfile"
 
-	"github.com/denghuo98/zfast/web/zcache/file"
-	webSchema "github.com/denghuo98/zfast/zschema/zweb"
+	"github.com/denghuo98/zzfast/web/zcache/file"
+	webSchema "github.com/denghuo98/zzfast/zschema/zweb"
 )
 
 // cache 缓存驱动

@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/denghuo98/zfast/internal/dao"
-	"github.com/denghuo98/zfast/internal/model/entity"
-	"github.com/denghuo98/zfast/web/zqueue"
-	"github.com/denghuo98/zfast/zconsts"
+	"github.com/denghuo98/zzfast/internal/dao"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	"github.com/denghuo98/zzfast/web/zqueue"
+	"github.com/denghuo98/zzfast/zconsts"
 )
 
 func init() {

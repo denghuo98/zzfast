@@ -17,7 +17,7 @@ import (
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/kayon/iploc"
 
-	"github.com/denghuo98/zfast/web/zvalidate"
+	"github.com/denghuo98/zzfast/web/zvalidate"
 )
 
 const (

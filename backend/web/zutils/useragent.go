@@ -7,7 +7,7 @@ import (
 
 	"github.com/gogf/gf/v2/text/gstr"
 
-	"github.com/denghuo98/zfast/zconsts"
+	"github.com/denghuo98/zzfast/zconsts"
 )
 
 // GetOs 获取OS名称

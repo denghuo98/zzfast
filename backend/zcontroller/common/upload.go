@@ -7,9 +7,9 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/samber/lo"
 
-	"github.com/denghuo98/zfast/web/zstorager"
-	commonApi "github.com/denghuo98/zfast/zapi/common"
-	"github.com/denghuo98/zfast/zservice"
+	"github.com/denghuo98/zzfast/web/zstorager"
+	commonApi "github.com/denghuo98/zzfast/zapi/common"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 var Upload = new(cUpload)

@@ -9,7 +9,7 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/text/gstr"
 
-	"github.com/denghuo98/zfast/web/zvalidate"
+	"github.com/denghuo98/zzfast/web/zvalidate"
 )
 
 // UriToMap 将URL参数转为map

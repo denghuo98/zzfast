@@ -4,9 +4,9 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gcmd"
 
-	"github.com/denghuo98/zfast/web/zqueue"
+	"github.com/denghuo98/zzfast/web/zqueue"
 
-	_ "github.com/denghuo98/zfast/zqueues"
+	_ "github.com/denghuo98/zzfast/zqueues"
 )
 
 var (

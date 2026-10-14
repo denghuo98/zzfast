@@ -4,10 +4,10 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 
-	adminController "github.com/denghuo98/zfast/zcontroller/admin"
-	commonController "github.com/denghuo98/zfast/zcontroller/common"
-	systemController "github.com/denghuo98/zfast/zcontroller/system"
-	"github.com/denghuo98/zfast/zservice"
+	adminController "github.com/denghuo98/zzfast/zcontroller/admin"
+	commonController "github.com/denghuo98/zzfast/zcontroller/common"
+	systemController "github.com/denghuo98/zzfast/zcontroller/system"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 func Admin(ctx g.Ctx, group *ghttp.RouterGroup) {

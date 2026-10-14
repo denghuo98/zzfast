@@ -5,9 +5,9 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
 
-	"github.com/denghuo98/zfast/web/zcasbin"
-	"github.com/denghuo98/zfast/zcontroller"
-	"github.com/denghuo98/zfast/zservice"
+	"github.com/denghuo98/zzfast/web/zcasbin"
+	"github.com/denghuo98/zzfast/zcontroller"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 var (

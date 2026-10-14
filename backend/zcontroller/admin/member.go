@@ -4,9 +4,9 @@ import (
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 
-	"github.com/denghuo98/zfast/web/zcontext"
-	adminApi "github.com/denghuo98/zfast/zapi/admin"
-	"github.com/denghuo98/zfast/zservice"
+	"github.com/denghuo98/zzfast/web/zcontext"
+	adminApi "github.com/denghuo98/zzfast/zapi/admin"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 var Member = cMember{}

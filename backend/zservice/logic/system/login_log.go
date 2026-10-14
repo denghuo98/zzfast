@@ -13,15 +13,15 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/xuri/excelize/v2"
 
-	"github.com/denghuo98/zfast/internal/dao"
-	"github.com/denghuo98/zfast/internal/model/entity"
-	"github.com/denghuo98/zfast/web/zlocation"
-	"github.com/denghuo98/zfast/web/zqueue"
-	"github.com/denghuo98/zfast/web/zutils"
-	"github.com/denghuo98/zfast/zconsts"
-	commonSchema "github.com/denghuo98/zfast/zschema/common"
-	systemSchema "github.com/denghuo98/zfast/zschema/system"
-	"github.com/denghuo98/zfast/zservice"
+	"github.com/denghuo98/zzfast/internal/dao"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	"github.com/denghuo98/zzfast/web/zlocation"
+	"github.com/denghuo98/zzfast/web/zqueue"
+	"github.com/denghuo98/zzfast/web/zutils"
+	"github.com/denghuo98/zzfast/zconsts"
+	commonSchema "github.com/denghuo98/zzfast/zschema/common"
+	systemSchema "github.com/denghuo98/zzfast/zschema/system"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 func init() {

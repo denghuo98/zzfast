@@ -1,6 +1,6 @@
 # 项目配置
 
-ZZFrame 提供了灵活的配置方式，支持 YAML、JSON、TOML 等多种配置格式。
+ZZFast 提供了灵活的配置方式，支持 YAML、JSON、TOML 等多种配置格式。
 
 ## 配置文件位置
 
@@ -27,7 +27,7 @@ system:
 
 database:
   default:
-    link: "sqlite::@file(./data/zzframe.db)"
+    link: "sqlite::@file(./data/zzfast.db)"
     Prefix: "zz_"
 ```
 
@@ -46,7 +46,7 @@ system:
 
 database:
   default:
-    link: "mysql:root:password@tcp(127.0.0.1:3306)/zzframe?loc=Local&parseTime=true&charset=utf8mb4"
+    link: "mysql:root:password@tcp(127.0.0.1:3306)/zzfast?loc=Local&parseTime=true&charset=utf8mb4"
     Prefix: "zz_"
 ```
 
@@ -80,7 +80,7 @@ system:
     expires: 86400           # Token 过期时间（秒）
     refreshInterval: 3600    # Token 刷新间隔（秒）
     maxRefreshTimes: 10      # 最大刷新次数
-    secretKey: "zzframe"     # Token 密钥
+    secretKey: "zzfast"     # Token 密钥
     multiLogin: true         # 是否允许多端登录
 
 # 日志配置
@@ -91,7 +91,7 @@ logger:
 # 数据库配置
 database:
   default:
-    link: "mysql:root:password@tcp(127.0.0.1:3306)/zzframe?loc=Local&parseTime=true&charset=utf8mb4"
+    link: "mysql:root:password@tcp(127.0.0.1:3306)/zzfast?loc=Local&parseTime=true&charset=utf8mb4"
     Prefix: "zz_"
 
 # 队列配置
@@ -129,7 +129,7 @@ queue:
 | token.expires | Token 过期时间（秒） | 86400 | 否 |
 | token.refreshInterval | Token 刷新间隔（秒） | 3600 | 否 |
 | token.maxRefreshTimes | 最大刷新次数 | 10 | 否 |
-| token.secretKey | Token 密钥 | zzframe | 否 |
+| token.secretKey | Token 密钥 | zzfast | 否 |
 | token.multiLogin | 是否允许多端登录 | true | 否 |
 
 ### Logger 配置
@@ -149,7 +149,7 @@ queue:
 #### SQLite 连接字符串
 
 ```
-sqlite::@file(./data/zzframe.db)
+sqlite::@file(./data/zzfast.db)
 ```
 
 #### MySQL 连接字符串
@@ -183,7 +183,7 @@ export SERVER_PORT=9090
 export SYSTEM_MODE=production
 
 # 设置数据库连接
-export DB_LINK=mysql:root:password@tcp(127.0.0.1:3306)/zzframe
+export DB_LINK=mysql:root:password@tcp(127.0.0.1:3306)/zzfast
 ```
 
 ## 配置文件优先级
@@ -207,7 +207,7 @@ logger:
 
 database:
   default:
-    link: "sqlite::@file(./data/zzframe.db)"
+    link: "sqlite::@file(./data/zzfast.db)"
 ```
 
 ### 生产环境
@@ -221,7 +221,7 @@ logger:
 
 database:
   default:
-    link: "mysql:root:password@tcp(127.0.0.1:3306)/zzframe?loc=Local&parseTime=true&charset=utf8mb4"
+    link: "mysql:root:password@tcp(127.0.0.1:3306)/zzfast?loc=Local&parseTime=true&charset=utf8mb4"
 ```
 
 ## 下一步

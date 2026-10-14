@@ -1,6 +1,6 @@
-# ZFast 后端优化任务清单
+# zzfast 后端优化任务清单
 
-基于对 `backend/`（zzframe）逐模块 review 产出的缺点清单，全部优化项汇总如下。
+基于对 `backend/`（zzfast）逐模块 review 产出的缺点清单，全部优化项汇总如下。
 每完成一项勾选 `[x]`。优先级：P0 阻塞/风险 > P1 质量 > P2 工程化。
 
 ---
@@ -8,7 +8,7 @@
 ## P0 — 阻塞 / 安全风险
 
 - [x] **1. 重命名 Go module 路径**
-  `go.mod` 的 `module github.com/denghuo98/zzframe` → 统一改为 ZFast 的新 module 路径，并全局替换所有 `import` 引用。
+  `go.mod` 的 `module github.com/denghuo98/zzframe` → 统一改为 zzfast 的新 module 路径，并全局替换所有 `import` 引用。
 
 - [x] **2. 密码哈希 MD5 → bcrypt**
   `member.go`、`common/site.go`、`InitSuperAdmin` 等处 `gmd5.MustEncryptString(pwd+salt)` 改为 bcrypt（`golang.org/x/crypto/bcrypt`），保留/改造盐逻辑，迁移已有数据兼容方案。

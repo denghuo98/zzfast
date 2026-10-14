@@ -7,10 +7,10 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 
-	"github.com/denghuo98/zfast/web/zcontext"
-	"github.com/denghuo98/zfast/web/ztoken"
-	webSchema "github.com/denghuo98/zfast/zschema/zweb"
-	"github.com/denghuo98/zfast/zservice"
+	"github.com/denghuo98/zzfast/web/zcontext"
+	"github.com/denghuo98/zzfast/web/ztoken"
+	webSchema "github.com/denghuo98/zzfast/zschema/zweb"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 type sMiddleware struct {

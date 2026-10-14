@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: ZZFrame
+  name: ZZFast
   text: 简洁高效的 Go Web 开发框架
   tagline: 基于 GoFrame v2，提供完整的后台管理功能
   actions:

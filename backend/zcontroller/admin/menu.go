@@ -1,8 +1,8 @@
 package admin
 
 import (
-	adminApi "github.com/denghuo98/zfast/zapi/admin"
-	"github.com/denghuo98/zfast/zservice"
+	adminApi "github.com/denghuo98/zzfast/zapi/admin"
+	"github.com/denghuo98/zzfast/zservice"
 	"github.com/gogf/gf/v2/frame/g"
 )
 

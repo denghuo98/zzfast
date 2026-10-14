@@ -1,8 +1,8 @@
 package zresp
 
 import (
-	"github.com/denghuo98/zfast/web/zcontext"
-	webSchema "github.com/denghuo98/zfast/zschema/zweb"
+	"github.com/denghuo98/zzfast/web/zcontext"
+	webSchema "github.com/denghuo98/zzfast/zschema/zweb"
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gctx"

@@ -1,16 +1,16 @@
-# ZZFrame 配置文件模板
+# ZZFast 配置文件模板
 # 复制此文件为 config.yaml 并根据环境修改
 # 注意：config.yaml 已被 .gitignore 忽略，不会提交到仓库
 
 server:
   address: ":8000"
   serverRoot: "public"
-  serverAgent: "zzframe"
+  serverAgent: "zzfast"
 
-# 数据库配置（至少配置一个，否则使用 SQLite 本地文件 zzframe.db）
+# 数据库配置（至少配置一个，否则使用 SQLite 本地文件 zzfast.db）
 # database:
 #   default:
-#     link: "mysql:root:password@tcp(127.0.0.1:3306)/zzframe?charset=utf8mb4&parseTime=true&loc=Local"
+#     link: "mysql:root:password@tcp(127.0.0.1:3306)/zzfast?charset=utf8mb4&parseTime=true&loc=Local"
 
 # 系统核心配置
 system:

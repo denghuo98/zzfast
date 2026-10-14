@@ -3,9 +3,9 @@ package system
 import (
 	"github.com/gogf/gf/v2/os/gtime"
 
-	"github.com/denghuo98/zfast/internal/model/entity"
-	commonSchema "github.com/denghuo98/zfast/zschema/common"
-	"github.com/denghuo98/zfast/zschema/zform"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	commonSchema "github.com/denghuo98/zzfast/zschema/common"
+	"github.com/denghuo98/zzfast/zschema/zform"
 )
 
 type SysLoginLogPushInput struct {

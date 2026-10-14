@@ -7,8 +7,8 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
 
-	systemApi "github.com/denghuo98/zfast/zapi/system"
-	"github.com/denghuo98/zfast/zservice"
+	systemApi "github.com/denghuo98/zzfast/zapi/system"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 type cSysLoginLog struct{}

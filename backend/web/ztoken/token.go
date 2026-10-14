@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/denghuo98/zfast/web/zcache"
-	"github.com/denghuo98/zfast/zconsts"
-	webSchema "github.com/denghuo98/zfast/zschema/zweb"
+	"github.com/denghuo98/zzfast/web/zcache"
+	"github.com/denghuo98/zzfast/zconsts"
+	webSchema "github.com/denghuo98/zzfast/zschema/zweb"
 	"github.com/gogf/gf/v2/crypto/gmd5"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -44,7 +44,7 @@ func GetConfig() *webSchema.TokenConfig {
 
 // GetAuthKey 认证key
 func GetAuthKey(token string) string {
-	return gmd5.MustEncryptString("zzframe" + token)
+	return gmd5.MustEncryptString("zzfast" + token)
 }
 
 // GetTokenKey 令牌缓存key

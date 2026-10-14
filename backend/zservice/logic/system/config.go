@@ -6,12 +6,12 @@ import (
 	"github.com/gogf/gf/v2/util/gmode"
 	"github.com/samber/lo"
 
-	"github.com/denghuo98/zfast/web/zcache"
-	"github.com/denghuo98/zfast/web/zstorager"
-	"github.com/denghuo98/zfast/web/ztoken"
-	"github.com/denghuo98/zfast/zconsts"
-	webSchema "github.com/denghuo98/zfast/zschema/zweb"
-	"github.com/denghuo98/zfast/zservice"
+	"github.com/denghuo98/zzfast/web/zcache"
+	"github.com/denghuo98/zzfast/web/zstorager"
+	"github.com/denghuo98/zzfast/web/ztoken"
+	"github.com/denghuo98/zzfast/zconsts"
+	webSchema "github.com/denghuo98/zzfast/zschema/zweb"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 type sSystemConfig struct {

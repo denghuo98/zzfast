@@ -6,8 +6,8 @@ import (
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/test/gtest"
 
-	"github.com/denghuo98/zfast/zservice"
-	"github.com/denghuo98/zfast/zservice/logic/system"
+	"github.com/denghuo98/zzfast/zservice"
+	"github.com/denghuo98/zzfast/zservice/logic/system"
 )
 
 func TestGetAnonymousConfig_DefaultDisabled(t *testing.T) {

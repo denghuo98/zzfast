@@ -1,7 +1,7 @@
 package admin
 
 import (
-	adminSchema "github.com/denghuo98/zfast/zschema/admin"
+	adminSchema "github.com/denghuo98/zzfast/zschema/admin"
 	"github.com/gogf/gf/v2/frame/g"
 )
 

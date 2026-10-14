@@ -5,7 +5,7 @@
 package dao
 
 import (
-	"github.com/denghuo98/zfast/internal/dao/internal"
+	"github.com/denghuo98/zzfast/internal/dao/internal"
 )
 
 // sysRequestLogDao is the data access object for the table zz_sys_request_log.

@@ -14,8 +14,8 @@ import (
 	"github.com/gogf/gf/v2/os/gres"
 	"github.com/gogf/gf/v2/text/gstr"
 
-	"github.com/denghuo98/zfast/internal/dao"
-	"github.com/denghuo98/zfast/zconsts"
+	"github.com/denghuo98/zzfast/internal/dao"
+	"github.com/denghuo98/zzfast/zconsts"
 
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 )

@@ -5,7 +5,7 @@
 package dao
 
 import (
-	"github.com/denghuo98/zfast/internal/dao/internal"
+	"github.com/denghuo98/zzfast/internal/dao/internal"
 )
 
 // adminRoleCasbinDao is the data access object for the table zz_admin_role_casbin.

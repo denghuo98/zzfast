@@ -3,8 +3,8 @@ package system
 import (
 	"github.com/gogf/gf/v2/frame/g"
 
-	systemSchema "github.com/denghuo98/zfast/zschema/system"
-	"github.com/denghuo98/zfast/zschema/zform"
+	systemSchema "github.com/denghuo98/zzfast/zschema/system"
+	"github.com/denghuo98/zzfast/zschema/zform"
 )
 
 // SysLoginLogDeleteReq 删除登录日志

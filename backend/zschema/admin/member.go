@@ -3,8 +3,8 @@ package admin
 import (
 	"github.com/gogf/gf/v2/os/gtime"
 
-	"github.com/denghuo98/zfast/internal/model/entity"
-	"github.com/denghuo98/zfast/zschema/zform"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	"github.com/denghuo98/zzfast/zschema/zform"
 )
 
 // MemberAddInput 服务层-系统用户新增入参

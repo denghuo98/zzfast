@@ -1,8 +1,8 @@
 package admin
 
 import (
-	"github.com/denghuo98/zfast/internal/model/entity"
-	"github.com/denghuo98/zfast/zschema/zform"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	"github.com/denghuo98/zzfast/zschema/zform"
 )
 
 // RoleEditInput 服务层-角色编辑入参

@@ -1,11 +1,11 @@
-# ZZFrame
+# ZZFast
 
 基于 [GoFrame v2](https://goframe.org) 的 Go Web 后端框架，提供完整的管理后台：RBAC 权限控制（Casbin）、JWT 认证、消息队列、缓存和结构化日志。
 
 ## 项目结构
 
 ```
-zzframe/
+zzfast/
 ├── examples/basic/main.go    # 应用入口
 ├── config.example.yaml       # 配置文件模板（复制为 config.yaml 使用）
 ├── casbin.conf               # Casbin RBAC 模型配置
@@ -41,7 +41,7 @@ zzframe/
 
 ```bash
 git clone https://github.com/denghuo98/zfast.git
-cd zzframe
+cd zzfast
 
 # 创建配置文件
 cp config.example.yaml config.yaml

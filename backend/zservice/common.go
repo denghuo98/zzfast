@@ -4,8 +4,8 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 
-	commonSchema "github.com/denghuo98/zfast/zschema/common"
-	"github.com/denghuo98/zfast/zschema/zweb"
+	commonSchema "github.com/denghuo98/zzfast/zschema/common"
+	"github.com/denghuo98/zzfast/zschema/zweb"
 )
 
 type ICommonSite interface {

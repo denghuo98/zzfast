@@ -6,10 +6,10 @@ import (
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/gtime"
 
-	"github.com/denghuo98/zfast/internal/model/entity"
-	"github.com/denghuo98/zfast/web/zcontext"
-	"github.com/denghuo98/zfast/web/zqueue"
-	"github.com/denghuo98/zfast/zconsts"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	"github.com/denghuo98/zzfast/web/zcontext"
+	"github.com/denghuo98/zzfast/web/zqueue"
+	"github.com/denghuo98/zzfast/zconsts"
 )
 
 // AccessLog 访问日志中间件

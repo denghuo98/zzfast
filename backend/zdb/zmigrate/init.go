@@ -55,7 +55,7 @@ func getDefaultSQLiteConfig() gdb.ConfigGroup {
 	// 获取当前项目根目录
 	rootPath := gfile.Pwd()
 	// SQLite 文件路径
-	dbPath := filepath.Join(rootPath, "zzframe.db")
+	dbPath := filepath.Join(rootPath, "zzfast.db")
 
 	return gdb.ConfigGroup{
 		gdb.ConfigNode{

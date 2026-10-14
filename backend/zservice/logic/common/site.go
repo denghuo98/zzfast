@@ -6,17 +6,17 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
 
-	"github.com/denghuo98/zfast/internal/dao"
-	"github.com/denghuo98/zfast/internal/model/entity"
-	"github.com/denghuo98/zfast/web/zcontext"
-	"github.com/denghuo98/zfast/web/zencrypt"
-	"github.com/denghuo98/zfast/web/ztoken"
-	"github.com/denghuo98/zfast/zconsts"
-	adminSchema "github.com/denghuo98/zfast/zschema/admin"
-	commonSchema "github.com/denghuo98/zfast/zschema/common"
-	systemSchema "github.com/denghuo98/zfast/zschema/system"
-	"github.com/denghuo98/zfast/zschema/zweb"
-	"github.com/denghuo98/zfast/zservice"
+	"github.com/denghuo98/zzfast/internal/dao"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	"github.com/denghuo98/zzfast/web/zcontext"
+	"github.com/denghuo98/zzfast/web/zencrypt"
+	"github.com/denghuo98/zzfast/web/ztoken"
+	"github.com/denghuo98/zzfast/zconsts"
+	adminSchema "github.com/denghuo98/zzfast/zschema/admin"
+	commonSchema "github.com/denghuo98/zzfast/zschema/common"
+	systemSchema "github.com/denghuo98/zzfast/zschema/system"
+	"github.com/denghuo98/zzfast/zschema/zweb"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 type sCommonSite struct {

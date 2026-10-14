@@ -1,4 +1,4 @@
-module github.com/denghuo98/zfast
+module github.com/denghuo98/zzfast
 
 go 1.24.0
 

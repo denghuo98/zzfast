@@ -1,8 +1,8 @@
 package admin
 
 import (
-	adminSchema "github.com/denghuo98/zfast/zschema/admin"
-	"github.com/denghuo98/zfast/zschema/zform"
+	adminSchema "github.com/denghuo98/zzfast/zschema/admin"
+	"github.com/denghuo98/zzfast/zschema/zform"
 	"github.com/gogf/gf/v2/frame/g"
 )
 

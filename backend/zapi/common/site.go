@@ -3,7 +3,7 @@ package common
 import (
 	"github.com/gogf/gf/v2/frame/g"
 
-	commonSchema "github.com/denghuo98/zfast/zschema/common"
+	commonSchema "github.com/denghuo98/zzfast/zschema/common"
 )
 
 type SitePingReq struct {

@@ -5,9 +5,9 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/gmode"
 
-	"github.com/denghuo98/zfast/web/zcaptcha"
-	commonApi "github.com/denghuo98/zfast/zapi/common"
-	"github.com/denghuo98/zfast/zservice"
+	"github.com/denghuo98/zzfast/web/zcaptcha"
+	commonApi "github.com/denghuo98/zzfast/zapi/common"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 type cSite struct{}

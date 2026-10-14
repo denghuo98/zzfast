@@ -7,15 +7,15 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/samber/lo"
 
-	"github.com/denghuo98/zfast/internal/dao"
-	"github.com/denghuo98/zfast/internal/model/entity"
-	"github.com/denghuo98/zfast/web/zcasbin"
-	"github.com/denghuo98/zfast/web/zcontext"
-	"github.com/denghuo98/zfast/zconsts"
-	"github.com/denghuo98/zfast/zdb/zgorm"
-	adminSchema "github.com/denghuo98/zfast/zschema/admin"
-	webSchema "github.com/denghuo98/zfast/zschema/zweb"
-	"github.com/denghuo98/zfast/zservice"
+	"github.com/denghuo98/zzfast/internal/dao"
+	"github.com/denghuo98/zzfast/internal/model/entity"
+	"github.com/denghuo98/zzfast/web/zcasbin"
+	"github.com/denghuo98/zzfast/web/zcontext"
+	"github.com/denghuo98/zzfast/zconsts"
+	"github.com/denghuo98/zzfast/zdb/zgorm"
+	adminSchema "github.com/denghuo98/zzfast/zschema/admin"
+	webSchema "github.com/denghuo98/zzfast/zschema/zweb"
+	"github.com/denghuo98/zzfast/zservice"
 )
 
 type sMenu struct{}

@@ -4,7 +4,7 @@
 
 ## 项目概述
 
-ZZFrame 是一个基于 [GoFrame v2](https://goframe.org) 构建的 Go Web 后端框架。它提供了完整的管理后台，包含 RBAC 权限控制（Casbin）、JWT 认证、消息队列、缓存和结构化日志等功能。
+ZZFast 是一个基于 [GoFrame v2](https://goframe.org) 构建的 Go Web 后端框架。它提供了完整的管理后台，包含 RBAC 权限控制（Casbin）、JWT 认证、消息队列、缓存和结构化日志等功能。
 
 ## 常用命令
 
@@ -86,7 +86,7 @@ type MemberListReq struct {
 
 `zdb/zmigrate` 包在启动时自动运行（`init()`）。它会：
 - 从 `config.yaml` 读取数据库配置
-- 如果没有配置，回退到本地 SQLite 文件（`zzframe.db`）
+- 如果没有配置，回退到本地 SQLite 文件（`zzfast.db`）
 - 如果表不存在则创建表，使用针对不同数据库类型（MySQL vs SQLite）的 SQL
 
 `internal/dao/` 中的 DAO 是对 GoFrame 生成的 `internal/dao/internal/` 结构体的薄包装。建议使用 `dao.Xxx.Ctx(ctx).Where(...).Scan(&dest)` 进行查询。

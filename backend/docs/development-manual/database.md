@@ -1,6 +1,6 @@
 # 数据库操作
 
-ZZFrame 基于 GoFrame 的 ORM 框架，提供强大的数据库操作能力。
+ZZFast 基于 GoFrame 的 ORM 框架，提供强大的数据库操作能力。
 
 ## DAO 层结构
 

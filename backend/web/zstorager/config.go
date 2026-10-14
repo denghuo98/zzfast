@@ -1,7 +1,7 @@
 package zstorager
 
 import (
-	webSchema "github.com/denghuo98/zfast/zschema/zweb"
+	webSchema "github.com/denghuo98/zzfast/zschema/zweb"
 )
 
 var (

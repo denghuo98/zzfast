@@ -1,6 +1,6 @@
 # 认证授权
 
-ZZFrame 采用 JWT (JSON Web Token) 进行用户认证，提供安全、高效的身份验证机制。
+ZZFast 采用 JWT (JSON Web Token) 进行用户认证，提供安全、高效的身份验证机制。
 
 ## 认证流程
 
@@ -66,7 +66,7 @@ system:
     expires: 86400           # Token 过期时间（秒），默认 24 小时
     refreshInterval: 3600    # Token 刷新间隔（秒），默认 1 小时
     maxRefreshTimes: 10      # 最大刷新次数
-    secretKey: "zzframe"     # Token 密钥
+    secretKey: "zzfast"     # Token 密钥
     multiLogin: true         # 是否允许多端登录
 ```
 

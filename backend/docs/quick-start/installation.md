@@ -2,7 +2,7 @@
 
 ## 环境要求
 
-在使用 ZZFrame 之前，请确保你的开发环境满足以下要求：
+在使用 ZZFast 之前，请确保你的开发环境满足以下要求：
 
 - **Go**: 1.24 或更高版本
 - **MySQL**: 5.7 或更高版本（可选，不配置则使用 SQLite）
@@ -16,7 +16,7 @@
 
 ```bash
 git clone https://github.com/denghuo98/zfast.git
-cd zzframe
+cd zzfast
 go mod tidy
 ```
 
@@ -30,7 +30,7 @@ go get github.com/denghuo98/zfast
 
 ## 配置文件
 
-ZZFrame 使用 YAML 格式的配置文件（也支持 JSON、TOML）。在项目根目录创建 `config.yaml`：
+ZZFast 使用 YAML 格式的配置文件（也支持 JSON、TOML）。在项目根目录创建 `config.yaml`：
 
 ### 最小配置（SQLite）
 
@@ -47,7 +47,7 @@ system:
 
 database:
   default:
-    link: "sqlite::@file(./data/zzframe.db)"
+    link: "sqlite::@file(./data/zzfast.db)"
     Prefix: "zz_"
 ```
 
@@ -56,7 +56,7 @@ database:
 
 ### 使用 SQLite（自动创建）
 
-无需手动创建数据库，框架会自动在项目根目录下创建 `data/zzframe.db` 文件，并自动初始化表结构。
+无需手动创建数据库，框架会自动在项目根目录下创建 `data/zzfast.db` 文件，并自动初始化表结构。
 
 ### 使用 MySQL（手动创建）
 
@@ -71,7 +71,7 @@ database:
 - 默认角色和权限
 - 所有必要的数据库表
 
-> **提示**：如果使用 SQLite，数据库文件会自动创建在 `data/zzframe.db`，无需额外操作。
+> **提示**：如果使用 SQLite，数据库文件会自动创建在 `data/zzfast.db`，无需额外操作。
 
 ## 下一步
 

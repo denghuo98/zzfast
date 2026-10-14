@@ -2,8 +2,8 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: '/zzframe/',
-  title: "ZZFrame",
+  base: '/zzfast/',
+  title: "ZZFast",
   description: "ZZ 科技开发框架",
   ignoreDeadLinks: true,
   themeConfig: {
