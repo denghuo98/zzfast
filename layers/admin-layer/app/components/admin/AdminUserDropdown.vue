@@ -21,9 +21,11 @@
 </template>
 
 <script setup lang="ts">
+import type { AdminUserInfo } from '../../types/admin-api'
+
 const props = defineProps<{
   collapsed?: boolean
-  userInfo?: { fullname?: string; name?: string } | null
+  userInfo?: AdminUserInfo | null
 }>()
 
 const emit = defineEmits<{
@@ -31,7 +33,7 @@ const emit = defineEmits<{
 }>()
 
 const displayName = computed(() => {
-  return props.userInfo?.fullname || props.userInfo?.name || 'User'
+  return props.userInfo?.realName || props.userInfo?.username || 'User'
 })
 
 const avatarProps = computed(() => ({

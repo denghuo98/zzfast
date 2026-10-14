@@ -1,10 +1,16 @@
+import { useAuthStore } from '../stores/auth'
+
 /**
- * Admin 页面中间件 —— 默认实现（无 auth 依赖）。
+ * Admin 页面中间件 —— 校验登录态。
  *
- * 当 auth-module 存在时，auth-module 会注册同名的 `admin` 中间件覆盖此 fallback，
- * 注入真实的认证/鉴权能力；单独使用 admin-layer 时此 fallback 会放行所有请求。
+ * 未登录时重定向到 /login 并携带 redirect 回跳地址。
+ * 服务端跳过（HTTP 层认证由后端 AdminAuth 中间件保证）。
  */
-export default createAdminMiddleware({
-  isAuthenticated: () => true,
-  hasRole: () => true,
+export default defineNuxtRouteMiddleware((to) => {
+  if (import.meta.server) return
+
+  const authStore = useAuthStore()
+  if (!authStore.isAuthenticated) {
+    return navigateTo({ path: '/login', query: { redirect: to.fullPath } })
+  }
 })

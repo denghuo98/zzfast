@@ -15,6 +15,8 @@ export default defineNuxtConfig({
         requireRole: 'admin',
         /** 是否暴露样例页面，默认 false。消费者在 nuxt.config.ts 中覆盖为 true 才能访问 /samples/* */
         exposeSamples: false,
+        /** 登录密码 AES-GCM 加密密钥，必须与后端 system.requestEncryptKey 一致（16/24/32 字节） */
+        requestEncryptKey: '1234567890abcdef',
       },
     },
   },

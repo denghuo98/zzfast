@@ -21,8 +21,8 @@
       <template #footer="{ collapsed }">
         <AdminUserDropdown
           :collapsed="collapsed"
-          :user-info="userInfo"
-          @logout="handleLogout"
+          :user-info="adminAuth.userInfo.value"
+          @logout="adminAuth.logout()"
         />
       </template>
     </UDashboardSidebar>
@@ -34,7 +34,6 @@
           <template #leading>
             <AdminHeaderCollapseButton />
             <AdminHeaderRefreshButton />
-            <AdminProjectSelect :token="token" />
             <AdminHeaderBreadcrumb />
           </template>
 
@@ -61,26 +60,21 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useAuthStore } from '../stores/auth'
 
 // Admin layout — 所有管理后台页面使用 definePageMeta({ layout: 'admin' })
-// header 的认证数据（token / userInfo / logout）由上层通过 props 传入，
-// admin-layer 不再依赖 auth-module 的注入。
-const props = defineProps<{
-  /** Nuxt 内部传入的 layout 名称 */
-  name?: string
-  /** 访问令牌，用于项目切换下拉框请求项目列表；为空时不请求 */
-  token?: string | null
-  /** 当前登录用户信息 */
-  userInfo?: { fullname?: string; name?: string } | null
-  /** 登出回调 */
-  logout?: () => void | Promise<void>
-}>()
+// 认证数据（token / userInfo / logout）从内置 auth store 读取。
+const adminAuth = useAdminAuth()
+const authStore = useAuthStore()
+
+// 刷新页面后 userInfo 会丢失（仅 token 持久化在 cookie），客户端重新拉取
+onMounted(async () => {
+  if (authStore.isAuthenticated && !authStore.userInfo) {
+    await authStore.fetchUserInfo().catch(() => {})
+  }
+})
 
 const { flatMenu } = useAdminMenu()
-
-function handleLogout() {
-  props.logout?.()
-}
 
 // 软刷新：控制页面内容组件卸载/重挂
 const { alive } = usePageRefresh()
