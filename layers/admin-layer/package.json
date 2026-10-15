@@ -1,6 +1,6 @@
 {
   "name": "@zzfast/admin-layer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Admin dashboard layer for Nuxt 4 — pure UI components, layouts, tables, forms and sample pages (no auth dependency)",
   "license": "UNLICENSED",
