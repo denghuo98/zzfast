@@ -9,6 +9,11 @@ const authStore = useAuthStore()
 const route = useRoute()
 const toast = useToast()
 
+// 浏览器标题与页面标题使用品牌名（app.config 的 admin.title，可覆盖）
+const appConfig = useAppConfig()
+const brandTitle = computed(() => (appConfig.admin as Record<string, unknown> | undefined)?.title as string || 'Admin Panel')
+useHead({ title: brandTitle })
+
 const captchaId = ref('')
 const captchaBase64 = ref('')
 const captchaLoading = ref(false)
@@ -80,7 +85,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <UCard class="w-full max-w-md">
       <div class="text-center mb-6">
         <UIcon name="i-lucide-shield" class="w-10 h-10 text-primary mx-auto mb-3" />
-        <h1 class="text-xl font-semibold">{{ useAppConfig().admin?.title || 'Admin Panel' }}</h1>
+        <h1 class="text-xl font-semibold">{{ brandTitle }}</h1>
         <p class="text-muted text-sm mt-1">请登录管理后台</p>
       </div>
 

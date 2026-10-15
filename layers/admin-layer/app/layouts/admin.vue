@@ -83,6 +83,10 @@ const appConfig = useAppConfig()
 // 主题面板默认隐藏，仅当 admin.themePanel 显式为 true 时在顶栏显示
 const showThemePanel = computed(() => (appConfig.admin as Record<string, unknown> | undefined)?.themePanel === true)
 
+// 浏览器标题使用品牌名（app.config 的 admin.title，可覆盖）
+const brandTitle = computed(() => (appConfig.admin as Record<string, unknown> | undefined)?.title as string || 'Admin Panel')
+useHead({ title: brandTitle })
+
 const searchGroups = computed(() => [
   {
     id: 'pages',

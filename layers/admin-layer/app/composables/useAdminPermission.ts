@@ -11,7 +11,7 @@ import { useAdminAuth } from './useAdminAuth'
 export function useAdminPermission() {
   const auth = useAdminAuth()
 
-  /** 当前用户所有角色 code（如 ['admin@matrix', 'user@matrix']） */
+  /** 当前用户所有角色 code（如 ['admin', 'user']） */
   const currentRoles: ComputedRef<string[]> = computed(() => {
     const info = auth.userInfo.value as Record<string, unknown> | null
     if (!info) return []
