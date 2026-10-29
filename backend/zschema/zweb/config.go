@@ -61,3 +61,18 @@ type UploadConfig struct {
 	MinioBucket    string `json:"minioBucket"`
 	MinioDomain    string `json:"minioDomain"`
 }
+
+// MailConfig 邮件发送配置（SMTP）
+// 说明：Password 为邮箱的 SMTP 授权码/客户端专用密码，不是登录密码。
+type MailConfig struct {
+	Enabled  bool     `json:"enabled"  dc:"是否启用邮件通知"`
+	Host     string   `json:"host"     dc:"SMTP 服务器地址，如 smtp.163.com"`
+	Port     int      `json:"port"     dc:"SMTP 端口，SSL 通常为 465，STARTTLS 为 25/587"`
+	Username string   `json:"username" dc:"SMTP 登录账号（通常是完整邮箱地址）"`
+	Password string   `json:"password" dc:"SMTP 授权码/客户端专用密码"`
+	From     string   `json:"from"     dc:"发件人地址，默认与 username 相同"`
+	FromName string   `json:"fromName" dc:"发件人显示名称"`
+	SSL      bool     `json:"ssl"      dc:"是否使用隐式 SSL（465 端口开启，25/587 关闭走 STARTTLS）"`
+	To       []string `json:"to"       dc:"默认收件人列表"`
+	Timeout  int      `json:"timeout"  dc:"发送超时时间（秒），默认 10"`
+}

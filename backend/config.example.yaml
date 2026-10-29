@@ -78,6 +78,21 @@ system:
   # 请求加密密钥（AES-GCM，16/24/32字节，前后端保持一致），生产环境务必修改
   requestEncryptKey: "1234567890abcdef"
 
+# 邮件通知配置（SMTP，可选；未配置或 enabled=false 时不会发送）
+# 163 邮箱：password 填「SMTP 授权码」，不是登录密码
+# mail:
+#   enabled: true
+#   host: "smtp.163.com"
+#   port: 465
+#   ssl: true
+#   username: "your_account@163.com"
+#   password: "SMTP授权码"
+#   from: "your_account@163.com"
+#   fromName: "系统通知"
+#   to:
+#     - "receive@example.com"
+#   timeout: 10
+
 # 消息队列配置
 queue:
   switch: true

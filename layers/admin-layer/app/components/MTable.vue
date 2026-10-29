@@ -323,6 +323,7 @@ useResizeObserver(searchFormRef, (entries) => {
 const PAGINATION_SPACING = computed(() => 16)
 const { containerHeight } = useTableHeight({
   showTableHeader: computed(() => props.showTableHeader),
+  showPagination: computed(() => !!props.pagination),
   paginationHeight,
   tableHeaderHeight,
   searchFormHeight,

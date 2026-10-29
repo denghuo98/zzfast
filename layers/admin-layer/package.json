@@ -10,6 +10,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@noble/ciphers": "^2.4.0",
     "@nuxt/ui": "^4.8.2",
     "@pinia/nuxt": "^0.11.3",
     "@tiptap/core": "^3.26.1",

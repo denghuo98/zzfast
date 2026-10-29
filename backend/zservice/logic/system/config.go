@@ -7,6 +7,7 @@ import (
 	"github.com/samber/lo"
 
 	"github.com/denghuo98/zzfast/web/zcache"
+	"github.com/denghuo98/zzfast/web/zmail"
 	"github.com/denghuo98/zzfast/web/zstorager"
 	"github.com/denghuo98/zzfast/web/ztoken"
 	"github.com/denghuo98/zzfast/zconsts"
@@ -66,6 +67,13 @@ func (s *sSystemConfig) LoadConfig(ctx g.Ctx) (err error) {
 		return err
 	}
 	zstorager.SetConfig(uploadCfg)
+
+	// 邮件通知配置（未启用时允许为空）
+	mailCfg, err := s.GetMailConfig(ctx)
+	if err != nil {
+		return err
+	}
+	zmail.SetConfig(mailCfg)
 
 	// 请求加密密钥（强校验，缺失或长度不合法直接失败）
 	if _, err := s.GetRequestEncryptKey(ctx); err != nil {
@@ -128,6 +136,40 @@ func (s *sSystemConfig) GetUploadConfig(ctx g.Ctx) (conf *webSchema.UploadConfig
 		}
 	}
 	return
+}
+
+// GetMailConfig 读取邮件发送配置（SMTP）。
+// 未启用时只做默认值填充，不做强校验，避免影响未配置邮件的项目启动。
+func (s *sSystemConfig) GetMailConfig(ctx g.Ctx) (conf *webSchema.MailConfig, err error) {
+	conf = &webSchema.MailConfig{}
+	v, _ := g.Cfg().Get(ctx, "mail")
+	if v != nil {
+		if err = v.Struct(conf); err != nil {
+			return nil, gerror.Wrap(err, "解析 mail 配置失败")
+		}
+	}
+	if conf.Port <= 0 {
+		conf.Port = 465
+	}
+	if conf.Timeout <= 0 {
+		conf.Timeout = 10
+	}
+	if conf.From == "" {
+		conf.From = conf.Username
+	}
+	if !conf.Enabled {
+		return conf, nil
+	}
+	if conf.Host == "" {
+		return nil, gerror.New("mail 配置不完整：启用邮件通知时必须配置 host")
+	}
+	if conf.Username != "" && conf.Password == "" {
+		return nil, gerror.New("mail 配置不完整：配置了 username 时必须同时配置 password（SMTP 授权码）")
+	}
+	if len(conf.To) == 0 {
+		return nil, gerror.New("mail 配置不完整：启用邮件通知时必须配置至少一个收件人 mail.to")
+	}
+	return conf, nil
 }
 
 func (s *sSystemConfig) GetTokenConfig(ctx g.Ctx) (conf *webSchema.TokenConfig, err error) {

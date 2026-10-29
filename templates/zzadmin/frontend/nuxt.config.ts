@@ -21,6 +21,14 @@ export default defineNuxtConfig({
     },
   },
 
+  // admin-layer 是本地路径（extend），其 node_modules 与案例项目各自解析时
+  // 会出现两份 pinia，导致 SSR 里 getActivePinia() 为空。强制去重到本项目的副本。
+  vite: {
+    resolve: {
+      dedupe: ['pinia'],
+    },
+  },
+
   // 开发环境将 /admin 代理到后端（生产由 nginx 反代）
   nitro: {
     devProxy: {
