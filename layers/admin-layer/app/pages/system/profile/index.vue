@@ -21,6 +21,9 @@ const pwdForm = reactive({
   confirmPassword: '',
 })
 
+const displayName = computed(() => authStore.userInfo?.realName || authStore.userInfo?.username || '未命名用户')
+const avatarText = computed(() => displayName.value.charAt(0).toUpperCase())
+
 async function loadProfile() {
   const info = authStore.userInfo
   if (info) {
@@ -63,6 +66,11 @@ async function saveProfile() {
 // ==================== 头像上传 ====================
 
 const uploading = ref(false)
+const avatarInput = ref<HTMLInputElement | null>(null)
+
+function pickAvatar() {
+  avatarInput.value?.click()
+}
 
 async function uploadAvatar(file: File) {
   const token = useCookie<string>(ADMIN_TOKEN_COOKIE)
@@ -105,6 +113,13 @@ async function onAvatarChange(file: File) {
   }
 }
 
+async function onAvatarFileChange(e: Event) {
+  const input = e.target as HTMLInputElement
+  const file = input.files?.[0]
+  input.value = ''
+  if (file) await onAvatarChange(file)
+}
+
 // ==================== 修改密码 ====================
 
 const savingPwd = ref(false)
@@ -140,28 +155,41 @@ async function savePassword() {
       <template #header>
         <h3 class="font-semibold">个人资料</h3>
       </template>
-      <div class="flex gap-6 items-start">
-        <div class="flex flex-col items-center gap-2">
-          <UAvatar :src="authStore.userInfo?.avatar" :text="(authStore.userInfo?.realName || authStore.userInfo?.username || 'U').charAt(0).toUpperCase()" size="3xl" />
-          <UButton size="xs" variant="outline" :loading="uploading" @click="() => {}">更换头像</UButton>
-          <input type="file" accept="image/*" class="hidden" @change="(e) => { const f = (e.target as HTMLInputElement).files?.[0]; if (f) onAvatarChange(f) }">
+
+      <div class="space-y-6">
+        <div class="flex items-center gap-4">
+          <UAvatar :src="authStore.userInfo?.avatar" :text="avatarText" size="3xl" />
+          <div class="min-w-0">
+            <p class="truncate font-medium">{{ displayName }}</p>
+            <p class="truncate text-sm text-muted">{{ authStore.userInfo?.username }}</p>
+          </div>
+          <UButton class="ms-auto" size="xs" variant="outline" :loading="uploading" @click="pickAvatar">
+            更换头像
+          </UButton>
+          <input
+            ref="avatarInput"
+            type="file"
+            accept="image/*"
+            class="hidden"
+            @change="onAvatarFileChange"
+          >
         </div>
 
-        <div class="flex-1 max-w-lg space-y-4">
+        <div class="space-y-4">
           <UFormField label="账号">
-            <UInput :model-value="authStore.userInfo?.username" disabled />
+            <UInput :model-value="authStore.userInfo?.username" disabled class="w-full" />
           </UFormField>
           <UFormField label="姓名">
-            <UInput v-model="profileForm.realName" />
+            <UInput v-model="profileForm.realName" class="w-full" />
           </UFormField>
           <UFormField label="性别">
-            <USelect v-model="profileForm.sex" :items="[{ label: '男', value: 1 }, { label: '女', value: 2 }]" />
+            <USelect v-model="profileForm.sex" :items="[{ label: '男', value: 1 }, { label: '女', value: 2 }]" class="w-full" />
           </UFormField>
           <UFormField label="邮箱">
-            <UInput v-model="profileForm.email" />
+            <UInput v-model="profileForm.email" class="w-full" />
           </UFormField>
           <UFormField label="手机号">
-            <UInput v-model="profileForm.mobile" />
+            <UInput v-model="profileForm.mobile" class="w-full" />
           </UFormField>
           <UButton color="primary" :loading="savingProfile" @click="saveProfile">保存资料</UButton>
         </div>
@@ -172,15 +200,15 @@ async function savePassword() {
       <template #header>
         <h3 class="font-semibold">修改密码</h3>
       </template>
-      <div class="max-w-lg space-y-4">
+      <div class="space-y-4">
         <UFormField label="旧密码" required>
-          <UInput v-model="pwdForm.oldPassword" type="password" />
+          <UInput v-model="pwdForm.oldPassword" type="password" class="w-full" />
         </UFormField>
         <UFormField label="新密码" required>
-          <UInput v-model="pwdForm.newPassword" type="password" />
+          <UInput v-model="pwdForm.newPassword" type="password" class="w-full" />
         </UFormField>
         <UFormField label="确认新密码" required>
-          <UInput v-model="pwdForm.confirmPassword" type="password" />
+          <UInput v-model="pwdForm.confirmPassword" type="password" class="w-full" />
         </UFormField>
         <UButton color="primary" :loading="savingPwd" @click="savePassword">修改密码</UButton>
       </div>

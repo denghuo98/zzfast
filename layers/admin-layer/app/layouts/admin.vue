@@ -66,11 +66,15 @@ import { useAuthStore } from '../stores/auth'
 // 认证数据（token / userInfo / logout）从内置 auth store 读取。
 const adminAuth = useAdminAuth()
 const authStore = useAuthStore()
+const route = useRoute()
 
-// 刷新页面后 userInfo 会丢失（仅 token 持久化在 cookie），客户端重新拉取
+// 刷新页面后 userInfo 会丢失（仅 token 持久化在 cookie），客户端重新拉取并校验会话
 onMounted(async () => {
   if (authStore.isAuthenticated && !authStore.userInfo) {
-    await authStore.fetchUserInfo().catch(() => {})
+    const valid = await authStore.validateSession()
+    if (!valid) {
+      await navigateTo({ path: '/login', query: { redirect: route.fullPath } })
+    }
   }
 })
 

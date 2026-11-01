@@ -24,7 +24,7 @@ export interface ApiResponse<T = unknown> {
 export function useApi() {
   const token = useCookie<string>(ADMIN_TOKEN_COOKIE)
 
-  async function request<T>(url: string, options: UseFetchOptions<T> = {}): Promise<T> {
+  async function request<T>(url: string, options: UseFetchOptions<T> = {}, timeout?: number): Promise<T> {
     const headers: Record<string, string> = { ...(options.headers as Record<string, string>) }
     if (token.value) {
       headers.Authorization = `Bearer ${token.value}`
@@ -33,6 +33,7 @@ export function useApi() {
     const res = await $fetch<ApiResponse<T>>(url, {
       ...options,
       headers,
+      ...(timeout ? { timeout } : {}),
     })
 
     if (res.code !== 0) {
@@ -45,8 +46,8 @@ export function useApi() {
 
   return {
     request,
-    get: <T>(url: string, params?: Record<string, unknown>) =>
-      request<T>(url, { method: 'GET', params }),
+    get: <T>(url: string, params?: Record<string, unknown>, timeout?: number) =>
+      request<T>(url, { method: 'GET', params }, timeout),
     post: <T>(url: string, body?: unknown) =>
       request<T>(url, { method: 'POST', body }),
     del: <T>(url: string, params?: Record<string, unknown>) =>

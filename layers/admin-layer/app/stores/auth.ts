@@ -11,18 +11,31 @@ import { ADMIN_TOKEN_COOKIE, useApi } from '../composables/useApi'
 import { aesGcmEncrypt } from '../utils/crypto'
 import type { AdminLoginResponse, AdminUserInfo } from '../types/admin-api'
 
+/** 会话校验结果的缓存时长，避免每次路由跳转都请求后端 */
+const SESSION_VALIDATE_TTL = 30_000
+/** 会话校验请求超时时间，后端不可用时尽快跳转登录页 */
+const SESSION_VALIDATE_TIMEOUT = 4_000
+
 export const useAuthStore = defineStore('admin-auth', () => {
   const token = useCookie<string>(ADMIN_TOKEN_COOKIE, { maxAge: 86400, path: '/' })
   const userInfo = ref<AdminUserInfo | null>(null)
+  const validatedAt = ref(0)
 
   const isAuthenticated = computed(() => !!token.value)
 
   function setToken(value: string) {
     token.value = value
+    validatedAt.value = 0
   }
 
   function setUserInfo(info: AdminUserInfo | null) {
     userInfo.value = info
+  }
+
+  function clearSession() {
+    token.value = null
+    setUserInfo(null)
+    validatedAt.value = 0
   }
 
   /** 获取登录验证码 */
@@ -54,12 +67,38 @@ export const useAuthStore = defineStore('admin-auth', () => {
   }
 
   /** 获取当前登录用户信息 */
-  async function fetchUserInfo() {
+  async function fetchUserInfo(timeout?: number) {
     if (!token.value) return null
     const api = useApi()
-    const info = await api.get<AdminUserInfo>('/admin/member/info')
+    const info = await api.get<AdminUserInfo>('/admin/member/info', undefined, timeout)
     setUserInfo(info)
+    validatedAt.value = Date.now()
     return info
+  }
+
+  /**
+   * 校验当前会话是否有效（token 存在且后端认可）。
+   *
+   * 校验成功会刷新用户信息；失败会清空 token 和用户信息。
+   * 校验结果默认缓存 SESSION_VALIDATE_TTL，可用 force 强制刷新。
+   */
+  async function validateSession(force = false): Promise<boolean> {
+    if (!token.value) {
+      clearSession()
+      return false
+    }
+
+    if (!force && userInfo.value && Date.now() - validatedAt.value < SESSION_VALIDATE_TTL) {
+      return true
+    }
+
+    try {
+      await fetchUserInfo(SESSION_VALIDATE_TIMEOUT)
+      return true
+    } catch {
+      clearSession()
+      return false
+    }
   }
 
   /** 退出登录 */
@@ -70,8 +109,7 @@ export const useAuthStore = defineStore('admin-auth', () => {
     } catch {
       // 忽略登出接口错误，本地状态照常清理
     }
-    token.value = null
-    setUserInfo(null)
+    clearSession()
   }
 
   return {
@@ -83,6 +121,7 @@ export const useAuthStore = defineStore('admin-auth', () => {
     fetchCaptcha,
     login,
     fetchUserInfo,
+    validateSession,
     logout,
   }
 })

@@ -37,11 +37,14 @@ const state = reactive<Partial<Schema>>({
   code: '',
 })
 
-// 已登录则直接跳首页
-onMounted(() => {
+// 已登录且会话有效则直接跳首页；token 失效时留在登录页
+onMounted(async () => {
   if (authStore.isAuthenticated) {
-    navigateTo('/', { replace: true })
-    return
+    const valid = await authStore.validateSession()
+    if (valid) {
+      navigateTo('/', { replace: true })
+      return
+    }
   }
   getCaptcha()
 })
