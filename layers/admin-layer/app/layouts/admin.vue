@@ -22,7 +22,7 @@
         <AdminUserDropdown
           :collapsed="collapsed"
           :user-info="adminAuth.userInfo.value"
-          @logout="adminAuth.logout()"
+          @logout="handleLogout"
         />
       </template>
     </UDashboardSidebar>
@@ -67,6 +67,11 @@ import { useAuthStore } from '../stores/auth'
 const adminAuth = useAdminAuth()
 const authStore = useAuthStore()
 const route = useRoute()
+
+async function handleLogout() {
+  await adminAuth.logout()
+  await navigateTo({ path: '/login' }, { replace: true })
+}
 
 // 刷新页面后 userInfo 会丢失（仅 token 持久化在 cookie），客户端重新拉取并校验会话
 onMounted(async () => {
