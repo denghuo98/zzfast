@@ -51,7 +51,8 @@ export default defineConfig({
             { text: '权限管理', link: '/technical-solutions/authorization' },
             { text: '缓存方案', link: '/technical-solutions/cache' },
             { text: '队列方案', link: '/technical-solutions/queue' },
-            { text: '日志方案', link: '/technical-solutions/logging' }
+            { text: '日志方案', link: '/technical-solutions/logging' },
+            { text: '验证码方案', link: '/technical-solutions/verify-code' }
           ]
         }
       ]

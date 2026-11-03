@@ -69,15 +69,16 @@ func getDefaultSQLiteConfig() gdb.ConfigGroup {
 func initTables(ctx g.Ctx, dbType string) error {
 	// 初始化管理员相关表
 	tables := map[string]string{
-		"zz_admin_member":      getCreateTableSQL("admin_member", dbType),
-		"zz_admin_member_role": getCreateTableSQL("admin_member_role", dbType),
-		"zz_admin_menu":        getCreateTableSQL("admin_menu", dbType),
-		"zz_admin_role":        getCreateTableSQL("admin_role", dbType),
-		"zz_admin_role_menu":   getCreateTableSQL("admin_role_menu", dbType),
-		"zz_admin_role_casbin": getCreateTableSQL("admin_role_casbin", dbType),
-		"zz_sys_login_log":     getCreateTableSQL("sys_login_log", dbType),
-		"zz_sys_request_log":   getCreateTableSQL("sys_request_log", dbType),
-		"zz_sys_attachment":    getCreateTableSQL("sys_attachment", dbType),
+		"zz_admin_member":        getCreateTableSQL("admin_member", dbType),
+		"zz_admin_member_role":   getCreateTableSQL("admin_member_role", dbType),
+		"zz_admin_menu":          getCreateTableSQL("admin_menu", dbType),
+		"zz_admin_role":          getCreateTableSQL("admin_role", dbType),
+		"zz_admin_role_menu":     getCreateTableSQL("admin_role_menu", dbType),
+		"zz_admin_role_casbin":   getCreateTableSQL("admin_role_casbin", dbType),
+		"zz_sys_login_log":       getCreateTableSQL("sys_login_log", dbType),
+		"zz_sys_request_log":     getCreateTableSQL("sys_request_log", dbType),
+		"zz_sys_attachment":      getCreateTableSQL("sys_attachment", dbType),
+		"zz_sys_verify_code_log": getCreateTableSQL("sys_verify_code_log", dbType),
 	}
 
 	for tableName, sql := range tables {
@@ -89,6 +90,12 @@ func initTables(ctx g.Ctx, dbType string) error {
 		// 创建表
 		if err := createTable(ctx, sql, tableName); err != nil {
 			return err
+		}
+	}
+
+	if dbType == "sqlite" {
+		if _, err := g.DB().Exec(ctx, "CREATE INDEX IF NOT EXISTS idx_sys_verify_code_log_scene_mobile ON zz_sys_verify_code_log (scene, mobile, created_at)"); err != nil {
+			return fmt.Errorf("创建验证码日志索引失败: %w", err)
 		}
 	}
 
@@ -118,6 +125,8 @@ func getCreateTableSQL(tableKey, dbType string) string {
 			return createSysRequestLogTableSQL
 		case "sys_attachment":
 			return createSysAttachmentTableSQL
+		case "sys_verify_code_log":
+			return createSysVerifyCodeLogTableSQL
 		}
 	case "sqlite":
 		switch tableKey {
@@ -139,6 +148,8 @@ func getCreateTableSQL(tableKey, dbType string) string {
 			return createSysRequestLogTableSQLite
 		case "sys_attachment":
 			return createSysAttachmentTableSQLite
+		case "sys_verify_code_log":
+			return createSysVerifyCodeLogTableSQLite
 		}
 	}
 	return ""

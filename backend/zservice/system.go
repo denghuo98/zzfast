@@ -13,6 +13,8 @@ type ISystemConfig interface {
 	GetSuperAdmin(ctx g.Ctx) (conf *webSchema.SuperAdminConfig, err error)
 	GetAnonymousConfig(ctx g.Ctx) (conf *webSchema.AnonymousConfig, err error)
 	GetRequestEncryptKey(ctx g.Ctx) (key []byte, err error)
+	GetSmsConfig(ctx g.Ctx) (conf *webSchema.SmsConfig, err error)
+	GetVerifyCodeConfig(ctx g.Ctx) (conf *webSchema.VerifyCodeConfig, err error)
 }
 
 type ISysLoginLog interface {

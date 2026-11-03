@@ -147,3 +147,16 @@ CREATE TABLE IF NOT EXISTS zz_sys_attachment (
   updated_at TEXT DEFAULT (datetime('now','localtime'))
 );
 `
+
+var createSysVerifyCodeLogTableSQLite = `
+CREATE TABLE IF NOT EXISTS zz_sys_verify_code_log (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  scene TEXT NOT NULL DEFAULT '',
+  channel TEXT NOT NULL DEFAULT '',
+  mobile TEXT NOT NULL DEFAULT '',
+  ip TEXT NOT NULL DEFAULT '',
+  status INTEGER NOT NULL DEFAULT 1,
+  err_msg TEXT DEFAULT '',
+  created_at TEXT DEFAULT (datetime('now','localtime'))
+);
+`

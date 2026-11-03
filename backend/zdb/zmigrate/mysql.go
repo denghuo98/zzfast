@@ -164,3 +164,18 @@ CREATE TABLE zz_sys_attachment (
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统_附件管理';
 `
+
+var createSysVerifyCodeLogTableSQL = `
+CREATE TABLE zz_sys_verify_code_log (
+  id bigint NOT NULL AUTO_INCREMENT COMMENT '日志ID',
+  scene varchar(64) NOT NULL DEFAULT '' COMMENT '业务场景',
+  channel varchar(16) NOT NULL DEFAULT '' COMMENT '发送通道',
+  mobile varchar(32) NOT NULL DEFAULT '' COMMENT '手机号',
+  ip varchar(64) NOT NULL DEFAULT '' COMMENT '客户端IP',
+  status tinyint NOT NULL DEFAULT '1' COMMENT '状态：1发送成功 2发送失败 3校验成功 4校验失败',
+  err_msg varchar(1000) DEFAULT '' COMMENT '错误信息',
+  created_at datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (id) USING BTREE,
+  KEY idx_scene_mobile_created (scene, mobile, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统_验证码日志';
+`

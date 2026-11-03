@@ -136,3 +136,18 @@ CREATE TABLE `zz_sys_attachment` (
   `created_at` TEXT DEFAULT (datetime('now','localtime')),
   `updated_at` TEXT DEFAULT (datetime('now','localtime'))
 );
+
+
+-- 系统_验证码日志
+CREATE TABLE `zz_sys_verify_code_log` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `scene` TEXT NOT NULL DEFAULT '',
+  `channel` TEXT NOT NULL DEFAULT '',
+  `mobile` TEXT NOT NULL DEFAULT '',
+  `ip` TEXT NOT NULL DEFAULT '',
+  `status` INTEGER NOT NULL DEFAULT 1,
+  `err_msg` TEXT DEFAULT '',
+  `created_at` TEXT DEFAULT (datetime('now','localtime'))
+);
+
+CREATE INDEX `idx_sys_verify_code_log_scene_mobile` ON `zz_sys_verify_code_log` (`scene`, `mobile`, `created_at`);

@@ -2,6 +2,7 @@ package zcache
 
 import (
 	"context"
+	"errors"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gcache"
@@ -13,6 +14,11 @@ import (
 
 // cache 缓存驱动
 var cache *gcache.Cache
+
+// IsExpired 判断错误是否由缓存过期引起（file adapter 会把过期视为错误）。
+func IsExpired(err error) bool {
+	return errors.Is(err, file.CacheExpiredErr)
+}
 
 // Instance 缓存实例
 func Instance() *gcache.Cache {

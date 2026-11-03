@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"sync"
 	"time"
 
 	"github.com/gogf/gf/v2/container/gvar"
@@ -21,7 +22,8 @@ import (
 type (
 	// AdapterFile is the gcache adapter implements using file server.
 	AdapterFile struct {
-		dir string
+		dir   string
+		locks sync.Map
 	}
 
 	fileContent struct {
@@ -56,7 +58,131 @@ func (c *AdapterFile) SetMap(ctx context.Context, data map[interface{}]interface
 }
 
 func (c *AdapterFile) SetIfNotExist(ctx context.Context, key interface{}, value interface{}, duration time.Duration) (ok bool, err error) {
-	return false, gerror.New("implement me")
+	fileKey := gconv.String(key)
+	if fileKey == "" {
+		return false, gerror.New("empty key")
+	}
+	content, readErr := c.read(fileKey)
+	if readErr == nil && content != nil {
+		return false, nil
+	}
+	if readErr != nil && !errors.Is(readErr, CacheExpiredErr) && !errors.Is(readErr, os.ErrNotExist) {
+		// 损坏条目会永久阻塞该 key，尝试原子清理后再重建。
+		if !c.reclaimStale(fileKey) {
+			return false, readErr
+		}
+	} else if errors.Is(readErr, CacheExpiredErr) {
+		if !c.reclaimStale(fileKey) {
+			return false, nil
+		}
+	}
+
+	content = &fileContent{Data: gconv.String(value)}
+	if duration > 0 {
+		seconds := int64((duration + time.Second - 1) / time.Second)
+		if seconds < 1 {
+			seconds = 1
+		}
+		content.Duration = time.Now().Unix() + seconds
+	}
+	data, err := json.Marshal(content)
+	if err != nil {
+		return false, err
+	}
+
+	tmp, err := os.CreateTemp(c.dir, "cache-*.tmp")
+	if err != nil {
+		return false, err
+	}
+	tmpName := tmp.Name()
+	defer func() {
+		_ = os.Remove(tmpName)
+	}()
+	if err = tmp.Chmod(0o644); err != nil {
+		_ = tmp.Close()
+		return false, err
+	}
+	if _, err = tmp.Write(data); err != nil {
+		_ = tmp.Close()
+		return false, err
+	}
+	if err = tmp.Close(); err != nil {
+		return false, err
+	}
+
+	target := c.createName(fileKey)
+	// Link 保证目标已存在时返回 EEXIST，同时读者只会看到完整写入的文件。
+	err = os.Link(tmpName, target)
+	if err == nil {
+		return true, nil
+	}
+	if errors.Is(err, os.ErrExist) {
+		return false, nil
+	}
+
+	// 部分文件系统不支持硬链接，回退到独占创建。
+	f, openErr := os.OpenFile(target, os.O_WRONLY|os.O_CREATE|os.O_EXCL, perm)
+	if openErr != nil {
+		if errors.Is(openErr, os.ErrExist) {
+			return false, nil
+		}
+		return false, openErr
+	}
+	if _, err = f.Write(data); err != nil {
+		_ = f.Close()
+		_ = os.Remove(target)
+		return false, err
+	}
+	if err = f.Close(); err != nil {
+		_ = os.Remove(target)
+		return false, err
+	}
+	return true, nil
+}
+
+// reclaimStale 原子地认领过期/损坏条目。仅当认领到的确实是过期或损坏条目时才删除；
+// 如果并发写入者已经创建了新条目，则恢复/保留新条目并返回 false。
+func (c *AdapterFile) reclaimStale(key string) bool {
+	path := c.createName(key)
+	stale := fmt.Sprintf("%s.expired.%d", path, time.Now().UnixNano())
+	if err := os.Rename(path, stale); err != nil {
+		return false
+	}
+	content, parseErr := readFileContent(stale)
+	if parseErr != nil {
+		var syntaxErr *json.SyntaxError
+		var typeErr *json.UnmarshalTypeError
+		if !errors.As(parseErr, &syntaxErr) && !errors.As(parseErr, &typeErr) {
+			// 无法判断内容（可能是 I/O 异常），尝试恢复，避免误删。
+			c.restoreStale(stale, path)
+			return false
+		}
+	} else if content != nil && content.Duration > time.Now().Unix() {
+		c.restoreStale(stale, path)
+		return false
+	}
+	_ = os.Remove(stale)
+	return true
+}
+
+func (c *AdapterFile) restoreStale(stale, path string) {
+	if err := os.Link(stale, path); err == nil {
+		_ = os.Remove(stale)
+		return
+	}
+	_ = os.Remove(stale)
+}
+
+func readFileContent(path string) (*fileContent, error) {
+	value, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	content := &fileContent{}
+	if err := json.Unmarshal(value, content); err != nil {
+		return nil, err
+	}
+	return content, nil
 }
 
 func (c *AdapterFile) SetIfNotExistFunc(ctx context.Context, key interface{}, f gcache.Func, duration time.Duration) (ok bool, err error) {
@@ -68,7 +194,11 @@ func (c *AdapterFile) SetIfNotExistFuncLock(ctx context.Context, key interface{}
 }
 
 func (c *AdapterFile) Get(ctx context.Context, key interface{}) (*gvar.Var, error) {
-	fetch, err := c.Fetch(gconv.String(key))
+	fileKey := gconv.String(key)
+	fetch, err := c.Fetch(fileKey)
+	if errors.Is(err, CacheExpiredErr) {
+		_ = c.reclaimStale(fileKey)
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -196,6 +326,11 @@ func (c *AdapterFile) Close(ctx context.Context) error {
 	return nil
 }
 
+func (c *AdapterFile) keyLock(key string) *sync.Mutex {
+	value, _ := c.locks.LoadOrStore(key, &sync.Mutex{})
+	return value.(*sync.Mutex)
+}
+
 func (c *AdapterFile) createName(key string) string {
 	h := sha256.New()
 	_, _ = h.Write([]byte(key))
@@ -224,7 +359,6 @@ func (c *AdapterFile) read(key string) (*fileContent, error) {
 	}
 
 	if content.Duration <= time.Now().Unix() {
-		_ = c.Delete(key)
 		return nil, CacheExpiredErr
 	}
 	return content, nil

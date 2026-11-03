@@ -69,10 +69,40 @@ system:
     minioBucket: ""
     minioDomain: ""
 
+  # 验证码策略（短信验证码，用于登录、高危操作等场景校验）
+  verifyCode:
+    enabled: false
+    secret: ""             # 验证码哈希密钥，留空复用 system.token.secretKey
+    length: 6              # 验证码长度
+    ttl: 300               # 有效期（秒）
+    cooldown: 60           # 同场景同手机号重发间隔（秒）
+    maxAttempts: 5         # 最大错误次数
+    maxIpDaily: 20         # 同 IP 单场景每日发送上限
+    maxMobileDaily: 10     # 同手机号单场景每日发送上限
+    # trustedProxies:      # 可信代理 IP/CIDR；默认仅信任本机回环，内网代理需显式配置，否则跳过 IP 限流
+    #   - "10.0.0.0/8"
+    #   - "203.0.113.10"
+    scenes:
+      - scene: "login"
+        name: "登录验证"
+        template: "SMS_000000000"   # 短信模板 ID
+        authOnly: false             # 登录前使用
+        requireCaptcha: true        # 发送前校验图形验证码
+        allowTargetInput: false
+      - scene: "high_risk"
+        name: "高危操作验证"
+        template: "SMS_000000001"
+        authOnly: true              # 仅登录后使用
+        requireCaptcha: false
+        allowTargetInput: false     # 固定发送到当前账号绑定的手机号
+
   # 不需要鉴权的路由白名单（精确匹配，不含通配符）
   # 说明：/admin/site/* 等公共接口已在 AdminAuth 中间件之前绑定，天然免鉴权，无需在此列出。
   # 动态菜单 /admin/menu/dynamic 依赖登录态（按角色过滤菜单），不可匿名访问。
   # 仅当存在「绑定了 AdminAuth 但又需匿名访问」的路由时，才需在此添加（须写全 /admin 前缀）。
+  # 例如希望该路由对任何登录用户放开（会同时跳过登录校验与 Casbin 权限校验，未登录请求也会进入控制器）：
+  # exceptAuth:
+  #   - "/admin/member/verify-code/send"
   exceptAuth: []
 
   # 请求加密密钥（AES-GCM，16/24/32字节，前后端保持一致），生产环境务必修改
@@ -92,6 +122,25 @@ system:
 #   to:
 #     - "receive@example.com"
 #   timeout: 10
+
+# 短信配置（验证码发送通道，可选；未配置或 enabled=false 时不会发送）
+# drive: mock | aliyun | tencent
+# sms:
+#   enabled: true
+#   drive: "aliyun"
+#   timeout: 10
+#   signName: "ZZFast"
+#   # 阿里云
+#   aliyunAccessKeyId: ""
+#   aliyunAccessKeySecret: ""
+#   aliyunSignName: ""
+#   # 腾讯云
+#   tencentSecretId: ""
+#   tencentSecretKey: ""
+#   tencentSdkAppId: ""
+#   tencentSignName: ""
+#   tencentRegion: "ap-guangzhou"
+#   tencentEndpoint: "sms.tencentcloudapi.com"
 
 # 消息队列配置
 queue:

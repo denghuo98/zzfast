@@ -19,7 +19,8 @@ func Admin(ctx g.Ctx, group *ghttp.RouterGroup) {
 
 	group.Group("/admin", func(group *ghttp.RouterGroup) {
 		group.Bind(
-			commonController.Site, // 站点公共接口
+			commonController.Site,       // 站点公共接口
+			commonController.VerifyCode, // 验证码发送（匿名场景）
 		)
 		group.Middleware(zservice.Middleware().AdminAuth)
 		group.Bind(
@@ -28,6 +29,7 @@ func Admin(ctx g.Ctx, group *ghttp.RouterGroup) {
 			adminController.Member,
 			systemController.SysLoginLog,
 			commonController.Upload,
+			adminController.VerifyCode,
 		)
 	})
 }
