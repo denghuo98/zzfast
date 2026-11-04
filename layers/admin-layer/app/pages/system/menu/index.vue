@@ -181,34 +181,34 @@ async function remove(row: AdminMenuItem) {
       <template #body>
         <div class="space-y-4">
           <UFormField label="上级菜单">
-            <USelect v-model="formState.pid" :items="parentOptions" />
+            <USelect v-model="formState.pid" :items="parentOptions" class="w-full" />
           </UFormField>
           <UFormField label="菜单名称" required>
-            <UInput v-model="formState.title" placeholder="菜单名称" />
+            <UInput v-model="formState.title" placeholder="菜单名称" class="w-full" />
           </UFormField>
           <UFormField label="类型">
-            <USelect v-model="formState.type" :items="[{ label: '目录', value: 1 }, { label: '菜单', value: 2 }, { label: '按钮', value: 3 }]" />
+            <USelect v-model="formState.type" :items="[{ label: '目录', value: 1 }, { label: '菜单', value: 2 }, { label: '按钮', value: 3 }]" class="w-full" />
           </UFormField>
           <UFormField label="路由别名" required>
-            <UInput v-model="formState.name" placeholder="路由别名" />
+            <UInput v-model="formState.name" placeholder="路由别名" class="w-full" />
           </UFormField>
           <UFormField v-if="formState.type !== 3" label="路由地址" required>
-            <UInput v-model="formState.path" placeholder="如 /system/user" />
+            <UInput v-model="formState.path" placeholder="如 /system/user" class="w-full" />
           </UFormField>
           <UFormField v-if="formState.type === 2" label="组件路径">
-            <UInput v-model="formState.component" placeholder="组件路径" />
+            <UInput v-model="formState.component" placeholder="组件路径" class="w-full" />
           </UFormField>
           <UFormField label="图标">
-            <UInput v-model="formState.icon" placeholder="如 i-lucide-users" />
+            <UInput v-model="formState.icon" placeholder="如 i-lucide-users" class="w-full" />
           </UFormField>
           <UFormField label="权限标识">
-            <UInput v-model="formState.permissions" placeholder="权限标识" />
+            <UInput v-model="formState.permissions" placeholder="权限标识" class="w-full" />
           </UFormField>
           <UFormField label="排序">
-            <UInput v-model.number="formState.sort" type="number" placeholder="排序号" />
+            <UInput v-model.number="formState.sort" type="number" placeholder="排序号" class="w-full" />
           </UFormField>
           <UFormField label="状态">
-            <USelect v-model="formState.status" :items="[{ label: '启用', value: 1 }, { label: '禁用', value: 2 }]" />
+            <USelect v-model="formState.status" :items="[{ label: '启用', value: 1 }, { label: '禁用', value: 2 }]" class="w-full" />
           </UFormField>
         </div>
       </template>

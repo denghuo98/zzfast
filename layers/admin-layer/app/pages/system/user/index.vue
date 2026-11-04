@@ -115,11 +115,13 @@ async function loadRoles() {
 function openCreate() {
   editingId.value = undefined
   Object.assign(formState, { username: '', realName: '', password: '', roleIds: [], email: '', mobile: '', remark: '', status: 1 })
+  loadRoles()
   modalOpen.value = true
 }
 
 function openEdit(row: AdminMemberItem) {
   editingId.value = row.id
+  loadRoles()
   Object.assign(formState, {
     username: row.username,
     realName: row.realName,
@@ -219,28 +221,28 @@ async function resetPassword(row: AdminMemberItem) {
       <template #body>
         <div class="space-y-4">
           <UFormField label="账号" required>
-            <UInput v-model="formState.username" placeholder="登录账号" :disabled="!!editingId" />
+            <UInput v-model="formState.username" placeholder="登录账号" :disabled="!!editingId" class="w-full" />
           </UFormField>
           <UFormField label="姓名">
-            <UInput v-model="formState.realName" placeholder="真实姓名" />
+            <UInput v-model="formState.realName" placeholder="真实姓名" class="w-full" />
           </UFormField>
           <UFormField v-if="!editingId" label="密码" required>
-            <UInput v-model="formState.password" type="password" placeholder="登录密码" />
+            <UInput v-model="formState.password" type="password" placeholder="登录密码" class="w-full" />
           </UFormField>
           <UFormField label="角色">
-            <USelectMenu v-model="formState.roleIds" :items="roleOptions.map(r => ({ label: r.name, value: r.id }))" multiple placeholder="选择角色" />
+            <USelectMenu v-model="formState.roleIds" :items="roleOptions.map(r => ({ label: r.name, value: r.id }))" multiple value-key="value" placeholder="选择角色" class="w-full" />
           </UFormField>
           <UFormField label="邮箱">
-            <UInput v-model="formState.email" placeholder="邮箱" />
+            <UInput v-model="formState.email" placeholder="邮箱" class="w-full" />
           </UFormField>
           <UFormField label="手机号">
-            <UInput v-model="formState.mobile" placeholder="手机号" />
+            <UInput v-model="formState.mobile" placeholder="手机号" class="w-full" />
           </UFormField>
           <UFormField label="备注">
-            <UTextarea v-model="formState.remark" placeholder="备注" :rows="2" />
+            <UTextarea v-model="formState.remark" placeholder="备注" :rows="2" class="w-full" />
           </UFormField>
           <UFormField label="状态">
-            <USelect v-model="formState.status" :items="[{ label: '启用', value: 1 }, { label: '禁用', value: 2 }]" />
+            <USelect v-model="formState.status" :items="[{ label: '启用', value: 1 }, { label: '禁用', value: 2 }]" class="w-full" />
           </UFormField>
         </div>
       </template>

@@ -9,6 +9,7 @@
       :min-size="10"
       :max-size="25"
       :collapsed-size="4"
+      :ui="{ body: 'no-scrollbar' }"
     >
       <template #header="{ collapsed }">
         <AdminSidebarHeader :collapsed="collapsed" />

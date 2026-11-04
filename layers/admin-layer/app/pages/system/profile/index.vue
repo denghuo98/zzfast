@@ -183,7 +183,7 @@ async function savePassword() {
             <UInput v-model="profileForm.realName" class="w-full" />
           </UFormField>
           <UFormField label="性别">
-            <USelect v-model="profileForm.sex" :items="[{ label: '男', value: 1 }, { label: '女', value: 2 }]" class="w-full" />
+            <USelect v-model="profileForm.sex" :items="[{ label: '男', value: 1 }, { label: '女', value: 2 }, { label: '保密', value: 3 }]" class="w-full" />
           </UFormField>
           <UFormField label="邮箱">
             <UInput v-model="profileForm.email" class="w-full" />

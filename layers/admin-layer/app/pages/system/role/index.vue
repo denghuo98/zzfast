@@ -95,11 +95,13 @@ async function loadMenus() {
 function openCreate() {
   editingId.value = undefined
   Object.assign(formState, { name: '', key: '', remark: '', sort: 0, status: 1, menuIds: [] })
+  loadMenus()
   modalOpen.value = true
 }
 
 function openEdit(row: AdminRoleItem) {
   editingId.value = row.id
+  loadMenus()
   Object.assign(formState, {
     name: row.name,
     key: row.key,
@@ -180,26 +182,26 @@ async function remove(row: AdminRoleItem) {
       </MTable>
     </UCard>
 
-    <UModal v-model:open="modalOpen" :title="editingId ? '编辑角色' : '新增角色'" @open="loadMenus">
+    <UModal v-model:open="modalOpen" :title="editingId ? '编辑角色' : '新增角色'">
       <template #body>
         <div class="space-y-4">
           <UFormField label="角色名称" required>
-            <UInput v-model="formState.name" placeholder="角色名称" />
+            <UInput v-model="formState.name" placeholder="角色名称" class="w-full" />
           </UFormField>
           <UFormField label="角色标识" required>
-            <UInput v-model="formState.key" placeholder="角色标识（如 admin）" />
+            <UInput v-model="formState.key" placeholder="角色标识（如 admin）" class="w-full" />
           </UFormField>
           <UFormField label="菜单权限">
-            <USelectMenu v-model="formState.menuIds" :items="menuOptions" multiple placeholder="选择菜单权限" />
+            <USelectMenu v-model="formState.menuIds" :items="menuOptions" multiple value-key="value" placeholder="选择菜单权限" class="w-full" />
           </UFormField>
           <UFormField label="排序">
-            <UInput v-model.number="formState.sort" type="number" placeholder="排序号" />
+            <UInput v-model.number="formState.sort" type="number" placeholder="排序号" class="w-full" />
           </UFormField>
           <UFormField label="备注">
-            <UTextarea v-model="formState.remark" placeholder="备注" :rows="2" />
+            <UTextarea v-model="formState.remark" placeholder="备注" :rows="2" class="w-full" />
           </UFormField>
           <UFormField label="状态">
-            <USelect v-model="formState.status" :items="[{ label: '启用', value: 1 }, { label: '禁用', value: 2 }]" />
+            <USelect v-model="formState.status" :items="[{ label: '启用', value: 1 }, { label: '禁用', value: 2 }]" class="w-full" />
           </UFormField>
         </div>
       </template>

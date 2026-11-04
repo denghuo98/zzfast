@@ -139,3 +139,13 @@ button:disabled,
 .tiptap [data-type="taskList"] li > div {
   flex: 1 1 auto;
 }
+
+/* ===== 隐藏可滚动区域的滚动条（保留滚动能力） ===== */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

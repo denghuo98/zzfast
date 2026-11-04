@@ -16,7 +16,7 @@ export default defineNuxtConfig({
 
   vite: {
     resolve: {
-      dedupe: ['vue', 'vue-router', '@vueuse/core'],
+      dedupe: ['vue', 'vue-router', '@vueuse/core', 'pinia'],
     },
     optimizeDeps: {
       // TipTap 依赖链会从多个入口重复预构建 prosemirror-state，

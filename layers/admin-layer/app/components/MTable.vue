@@ -72,6 +72,11 @@
         </UTooltip>
       </template>
 
+      <!-- 兼容旧版 `-data` 插槽命名，映射到 UTable 的 `-cell` 插槽 -->
+      <template v-for="alias in slotAliases" :key="alias.cell" #[alias.cell]="slotData">
+        <slot :name="alias.name" v-bind="slotData" />
+      </template>
+
       <template v-for="(_, name) in $slots" #[name]="slotData">
         <slot :name="name" v-bind="slotData" />
       </template>
@@ -186,6 +191,15 @@ const headerBackground = computed(() => isHeaderBackground.value)
 const size = computed(() => tableSize.value)
 
 const slots = useSlots()
+const slotAliases = computed(() => {
+  const result: { name: string; cell: string }[] = []
+  for (const name of Object.keys(slots)) {
+    if (!name.endsWith('-data')) continue
+    const cell = `${name.slice(0, -5)}-cell`
+    if (!slots[cell]) result.push({ name, cell })
+  }
+  return result
+})
 
 /// MTable 内部已渲染插槽的列 key，ellipsis 自动启用时需跳过以避免同名插槽冲突
 const reservedCellSlots = computed(() => {
