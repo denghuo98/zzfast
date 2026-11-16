@@ -15,6 +15,7 @@ type ISystemConfig interface {
 	GetRequestEncryptKey(ctx g.Ctx) (key []byte, err error)
 	GetSmsConfig(ctx g.Ctx) (conf *webSchema.SmsConfig, err error)
 	GetVerifyCodeConfig(ctx g.Ctx) (conf *webSchema.VerifyCodeConfig, err error)
+	GetWechatPayConfig(ctx g.Ctx) (conf *webSchema.WechatPayConfig, err error)
 }
 
 type ISysLoginLog interface {

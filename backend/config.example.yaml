@@ -123,6 +123,23 @@ system:
 #     - "receive@example.com"
 #   timeout: 10
 
+# 微信支付配置（APIv3，可选；未配置或 enabled=false 时不会初始化支付客户端）
+# 商户私钥可使用 privateKey 填写 PEM 内容，或使用 privateKeyPath 指定文件路径
+# pay:
+#   wechat:
+#     enabled: true
+#     appId: "wx0000000000000000"
+#     mchId: "1900000001"
+#     mchSerialNo: "商户API证书序列号"
+#     apiV3Key: "32位APIv3密钥"
+#     privateKey: |
+#       -----BEGIN PRIVATE KEY-----
+#       ...
+#       -----END PRIVATE KEY-----
+#     privateKeyPath: ""
+#     notifyUrl: "https://example.com/pay/wechat/notify"
+#     refundNotifyUrl: "https://example.com/pay/wechat/notify"
+
 # 短信配置（验证码发送通道，可选；未配置或 enabled=false 时不会发送）
 # drive: mock | aliyun | tencent
 # sms:

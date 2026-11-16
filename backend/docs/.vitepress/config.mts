@@ -52,7 +52,8 @@ export default defineConfig({
             { text: '缓存方案', link: '/technical-solutions/cache' },
             { text: '队列方案', link: '/technical-solutions/queue' },
             { text: '日志方案', link: '/technical-solutions/logging' },
-            { text: '验证码方案', link: '/technical-solutions/verify-code' }
+            { text: '验证码方案', link: '/technical-solutions/verify-code' },
+            { text: '微信支付', link: '/technical-solutions/wechat-pay' }
           ]
         }
       ]

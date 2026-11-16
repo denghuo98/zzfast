@@ -6,6 +6,7 @@ import (
 
 	adminController "github.com/denghuo98/zzfast/zcontroller/admin"
 	commonController "github.com/denghuo98/zzfast/zcontroller/common"
+	payController "github.com/denghuo98/zzfast/zcontroller/pay"
 	systemController "github.com/denghuo98/zzfast/zcontroller/system"
 	"github.com/denghuo98/zzfast/zservice"
 )
@@ -15,6 +16,11 @@ func Admin(ctx g.Ctx, group *ghttp.RouterGroup) {
 	// 兼容后台登录入口
 	group.ALL("/login", func(r *ghttp.Request) {
 		r.Response.RedirectTo("/admin/login")
+	})
+
+	// 支付回调等公开接口
+	group.Group("/pay", func(group *ghttp.RouterGroup) {
+		group.Bind(payController.WechatNotify)
 	})
 
 	group.Group("/admin", func(group *ghttp.RouterGroup) {

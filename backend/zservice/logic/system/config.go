@@ -10,6 +10,7 @@ import (
 	"github.com/denghuo98/zzfast/web/zsms"
 	"github.com/denghuo98/zzfast/web/zstorager"
 	"github.com/denghuo98/zzfast/web/ztoken"
+	"github.com/denghuo98/zzfast/web/zwechatpay"
 	"github.com/denghuo98/zzfast/zconsts"
 	webSchema "github.com/denghuo98/zzfast/zschema/zweb"
 	"github.com/denghuo98/zzfast/zservice"
@@ -93,6 +94,13 @@ func (s *sSystemConfig) LoadConfig(ctx g.Ctx) (err error) {
 	if verifyCfg.Enabled && len(verifyCfg.TrustedProxies) == 0 {
 		g.Log().Warning(ctx, "system.verifyCode.trustedProxies 未配置：若部署在 nginx/SLB 后，将无法获取真实客户端 IP，IP 日限额会被跳过")
 	}
+
+	// 微信支付配置（未启用时允许为空）
+	wechatPayCfg, err := s.GetWechatPayConfig(ctx)
+	if err != nil {
+		return err
+	}
+	zwechatpay.SetConfig(wechatPayCfg)
 
 	// 请求加密密钥（强校验，缺失或长度不合法直接失败）
 	if _, err := s.GetRequestEncryptKey(ctx); err != nil {
@@ -345,6 +353,21 @@ func (s *sSystemConfig) GetVerifyCodeConfig(ctx g.Ctx) (conf *webSchema.VerifyCo
 		}
 	}
 
+	return conf, nil
+}
+
+// GetWechatPayConfig 读取微信支付配置。
+func (s *sSystemConfig) GetWechatPayConfig(ctx g.Ctx) (conf *webSchema.WechatPayConfig, err error) {
+	conf = &webSchema.WechatPayConfig{}
+	v, _ := g.Cfg().Get(ctx, "pay.wechat")
+	if v != nil {
+		if err = v.Struct(conf); err != nil {
+			return nil, gerror.Wrap(err, "解析 pay.wechat 配置失败")
+		}
+	}
+	if err = zwechatpay.Validate(conf); err != nil {
+		return nil, err
+	}
 	return conf, nil
 }
 
