@@ -143,7 +143,7 @@ async function remove(row: AdminMenuItem) {
 
 <template>
   <div class="flex flex-col gap-4 h-full">
-    <UCard :ui="{ body: 'p-0 h-full' }" class="flex-1 min-h-50 overflow-hidden">
+    <UCard :ui="{ body: 'p-0 h-full flex flex-col' }" class="flex-1 min-h-50 overflow-hidden">
       <MTableHeader :loading="loading" @refresh="fetchList">
         <template #left>
           <span class="text-sm font-medium">菜单列表</span>

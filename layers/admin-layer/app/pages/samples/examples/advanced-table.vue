@@ -164,7 +164,7 @@ const selectedRows = ref<any[]>([])
 
     <!-- 表格 + 选中信息容器：flex-1 填充剩余空间 -->
     <div class="flex-1 min-h-0 flex flex-col gap-4">
-      <UCard :ui="{ body: 'p-0 h-full' }" class="flex-1 min-h-50 overflow-hidden">
+      <UCard :ui="{ body: 'p-0 h-full flex flex-col' }" class="flex-1 min-h-50 overflow-hidden">
         <MTableHeader :loading="loading" @refresh="refreshData">
           <template #left>
             <span class="text-sm font-medium">用户列表</span>

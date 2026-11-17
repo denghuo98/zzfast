@@ -1,113 +1,116 @@
 <template>
   <ClientOnly>
-    <!-- 无数据时的加载空态 -->
-    <div v-if="loading && isEmpty" class="flex items-center justify-center gap-2" :style="containerHeight">
-      <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-muted" />
-      <span class="text-sm text-muted">加载中...</span>
-    </div>
+    <div class="m-table-root flex min-h-0 flex-1 flex-col">
+      <!-- 无数据时的加载空态 -->
+      <div v-if="loading && isEmpty" class="flex flex-1 min-h-0 items-center justify-center gap-2">
+        <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-muted" />
+        <span class="text-sm text-muted">加载中...</span>
+      </div>
 
-    <!-- 已有数据时保留表格，刷新时叠半透明白遮罩 + loading，避免表格卸载/高度塌陷闪屏 -->
-    <div class="relative">
-      <UTable
-        v-if="!loading || !isEmpty"
-        ref="uTableRef"
-        sticky="header"
-        :data="props.data"
-        :columns="tableColumns"
-        :style="containerHeight"
-        :ui="tableUi"
-        :get-sub-rows="resolvedGetSubRows"
-        v-model:row-selection="rowSelection"
-        v-model:column-pinning="columnPinning"
-        v-model:expanded="expandedModel"
-      >
-      <template #__selection__-header="{ table }">
-        <UCheckbox
-          :model-value="
-            table.getIsSomeRowsSelected()
-              ? 'indeterminate'
-              : table.getIsAllRowsSelected()
-          "
-          @update:model-value="(v: any) => table.toggleAllRowsSelected(!!v)"
-        />
-      </template>
+      <template v-else>
+        <!-- 已有数据时保留表格，刷新时叠半透明白遮罩 + loading，避免表格卸载/高度塌陷闪屏 -->
+        <div class="relative min-h-0 flex-1">
+          <UTable
+            ref="uTableRef"
+            sticky="header"
+            :data="props.data"
+            :columns="tableColumns"
+            class="h-full min-h-0"
+            :ui="tableUi"
+            :get-sub-rows="resolvedGetSubRows"
+            v-model:row-selection="rowSelection"
+            v-model:column-pinning="columnPinning"
+            v-model:expanded="expandedModel"
+          >
+          <template #__selection__-header="{ table }">
+            <UCheckbox
+              :model-value="
+                table.getIsSomeRowsSelected()
+                  ? 'indeterminate'
+                  : table.getIsAllRowsSelected()
+              "
+              @update:model-value="(v: any) => table.toggleAllRowsSelected(!!v)"
+            />
+          </template>
 
-      <template #__selection__-cell="{ row }">
-        <UCheckbox
-          :model-value="row.getIsSelected()"
-          @update:model-value="(v: any) => row.toggleSelected(!!v)"
-        />
-      </template>
+          <template #__selection__-cell="{ row }">
+            <UCheckbox
+              :model-value="row.getIsSelected()"
+              @update:model-value="(v: any) => row.toggleSelected(!!v)"
+            />
+          </template>
 
-      <template #__index__-header>序号</template>
-      <template #__index__-cell="{ row }">#{{ row.original.id }}</template>
+          <template #__index__-header>序号</template>
+          <template #__index__-cell="{ row }">#{{ row.original.id }}</template>
 
-      <!-- 自动展开列：在 expand-key 指定的列上渲染缩进 + chevron 按钮 -->
-      <template v-if="props.expandKey" #[`${props.expandKey}-cell`]="{ row }">
-        <div class="flex items-center gap-1" :style="{ paddingLeft: `${row.depth * props.expandIndent}px` }">
-          <UButton
-            v-if="row.getCanExpand()"
-            :icon="row.getIsExpanded() ? 'i-lucide-chevron-down' : 'i-lucide-chevron-right'"
-            color="neutral"
-            variant="ghost"
-            size="xs"
-            class="shrink-0"
-            tabindex="-1"
-            @click="row.toggleExpanded()"
+          <!-- 自动展开列：在 expand-key 指定的列上渲染缩进 + chevron 按钮 -->
+          <template v-if="props.expandKey" #[`${props.expandKey}-cell`]="{ row }">
+            <div class="flex items-center gap-1" :style="{ paddingLeft: `${row.depth * props.expandIndent}px` }">
+              <UButton
+                v-if="row.getCanExpand()"
+                :icon="row.getIsExpanded() ? 'i-lucide-chevron-down' : 'i-lucide-chevron-right'"
+                color="neutral"
+                variant="ghost"
+                size="xs"
+                class="shrink-0"
+                tabindex="-1"
+                @click="row.toggleExpanded()"
+              />
+              <span v-else class="inline-block w-5 shrink-0" />
+              <slot :name="`${props.expandKey}-cell-content`" :row="row">
+                {{ row.original[props.expandKey] }}
+              </slot>
+            </div>
+          </template>
+
+          <!-- 树形展开时 UTable 默认会在 expanded 行下渲染空白行，用空模板抑制 -->
+          <template #expanded />
+
+          <!-- 固定宽度列：超长内容省略号 + UTooltip 悬浮显示全文 -->
+          <template v-for="col in ellipsisColumns" :key="col.id ?? (col as any).accessorKey" #[`${col.accessorKey}-cell`]="{ getValue }">
+            <UTooltip :text="String(getValue?.() ?? '')" arrow>
+              <span class="block truncate">{{ getValue?.() !== null && getValue?.() !== undefined ? getValue?.() : ' ' }}</span>
+            </UTooltip>
+          </template>
+
+          <!-- 兼容旧版 `-data` 插槽命名，映射到 UTable 的 `-cell` 插槽 -->
+          <template v-for="alias in slotAliases" :key="alias.cell" #[alias.cell]="slotData">
+            <slot :name="alias.name" v-bind="slotData" />
+          </template>
+
+          <template v-for="(_, name) in $slots" #[name]="slotData">
+            <slot :name="name" v-bind="slotData" />
+          </template>
+          </UTable>
+
+          <!-- 刷新遮罩：仅当已有数据且正在刷新时显示；表格本体保留在遮罩下层 -->
+          <div v-if="loading && !isEmpty" class="absolute inset-0 z-10 flex items-center justify-center bg-white/60 dark:bg-black/40" aria-hidden="true">
+            <UIcon name="i-lucide-loader-2" class="w-6 h-6 animate-spin text-primary" />
+          </div>
+        </div>
+
+        <!-- 分页：固定在底部，表格区域内部滚动 -->
+        <div
+          v-if="showPagination && (!loading || !isEmpty)"
+          ref="paginationRef"
+          class="flex shrink-0 gap-2 pt-4"
+          :class="ALIGN_CLASS_MAP[mergedPaginationOptions?.align as keyof typeof ALIGN_CLASS_MAP]"
+        >
+          <UPagination
+            :page="pagination?.page"
+            :items-per-page="pagination?.pageSize"
+            :total="pagination?.total"
+            @update:page="handleCurrentChange"
           />
-          <span v-else class="inline-block w-5 shrink-0" />
-          <slot :name="`${props.expandKey}-cell-content`" :row="row">
-            {{ row.original[props.expandKey] }}
-          </slot>
+
+          <USelect
+            :model-value="currentPageSize"
+            :items="pageSizeOptions"
+            :content="{ side: 'top' }"
+            @update:model-value="handleSizeChange"
+          />
         </div>
       </template>
-
-      <!-- 树形展开时 UTable 默认会在 expanded 行下渲染空白行，用空模板抑制 -->
-      <template #expanded />
-
-      <!-- 固定宽度列：超长内容省略号 + UTooltip 悬浮显示全文 -->
-      <template v-for="col in ellipsisColumns" :key="col.id ?? (col as any).accessorKey" #[`${col.accessorKey}-cell`]="{ getValue }">
-        <UTooltip :text="String(getValue?.() ?? '')" arrow>
-          <span class="block truncate">{{ getValue?.() !== null && getValue?.() !== undefined ? getValue?.() : ' ' }}</span>
-        </UTooltip>
-      </template>
-
-      <!-- 兼容旧版 `-data` 插槽命名，映射到 UTable 的 `-cell` 插槽 -->
-      <template v-for="alias in slotAliases" :key="alias.cell" #[alias.cell]="slotData">
-        <slot :name="alias.name" v-bind="slotData" />
-      </template>
-
-      <template v-for="(_, name) in $slots" #[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
-      </template>
-      </UTable>
-
-      <!-- 刷新遮罩：仅当已有数据且正在刷新时显示；表格本体保留在遮罩下层 -->
-      <div v-if="loading && !isEmpty" class="absolute inset-0 z-10 flex items-center justify-center bg-white/60 dark:bg-black/40" aria-hidden="true">
-        <UIcon name="i-lucide-loader-2" class="w-6 h-6 animate-spin text-primary" />
-      </div>
-    </div>
-
-    <!-- 分页 -->
-    <div
-      v-if="showPagination && (!loading || !isEmpty)"
-      ref="paginationRef"
-      class="flex gap-2 mt-4"
-      :class="ALIGN_CLASS_MAP[mergedPaginationOptions?.align as keyof typeof ALIGN_CLASS_MAP]"
-    >
-      <UPagination
-        :page="pagination?.page"
-        :items-per-page="pagination?.pageSize"
-        :total="pagination?.total"
-        @update:page="handleCurrentChange"
-      />
-
-      <USelect
-        :model-value="currentPageSize"
-        :items="pageSizeOptions"
-        :content="{ side: 'top' }"
-        @update:model-value="handleSizeChange"
-      />
     </div>
 
     <template #fallback>
@@ -119,21 +122,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick, useTemplateRef, watchEffect, onMounted, onUnmounted, useSlots } from 'vue'
-import { useResizeObserver, useWindowSize } from '@vueuse/core'
+import { ref, computed, watch, nextTick, useTemplateRef, onMounted, onUnmounted, useSlots } from 'vue'
 import { storeToRefs } from 'pinia'
 import type { TableColumn } from '@nuxt/ui'
 import { useTableStore } from '../stores/table'
-import { useTableHeight } from '../composables/useTableHeight'
 import { useCommon } from '../composables/useCommon'
 import type { TablePagination, ColumnOption } from '../types/table'
 
 defineOptions({ name: 'MTable' })
 
-const { width } = useWindowSize()
 const uTableRef = useTemplateRef('uTableRef')
 const paginationRef = ref<HTMLElement>()
-const tableHeaderRef = ref<HTMLElement>()
 const tableStore = useTableStore()
 const { isBorder, isZebra, tableSize, isHeaderBackground } = storeToRefs(tableStore)
 const { scrollToTop: scrollPageToTop } = useCommon()
@@ -314,36 +313,6 @@ const tableColumns = computed(() =>
 
 const isEmpty = computed(() => !props.data?.length)
 
-const paginationHeight = ref(0)
-const tableHeaderHeight = ref(0)
-const searchFormHeight = ref(0)
-
-useResizeObserver(paginationRef, (entries) => {
-  const entry = entries[0]
-  if (entry) requestAnimationFrame(() => { paginationHeight.value = entry.contentRect.height })
-})
-
-useResizeObserver(tableHeaderRef, (entries) => {
-  const entry = entries[0]
-  if (entry) requestAnimationFrame(() => { tableHeaderHeight.value = entry.contentRect.height })
-})
-
-const searchFormRef = ref<HTMLElement>()
-useResizeObserver(searchFormRef, (entries) => {
-  const entry = entries[0]
-  if (entry) requestAnimationFrame(() => { searchFormHeight.value = entry.contentRect.height })
-})
-
-const PAGINATION_SPACING = computed(() => 16)
-const { containerHeight } = useTableHeight({
-  showTableHeader: computed(() => props.showTableHeader),
-  showPagination: computed(() => !!props.pagination),
-  paginationHeight,
-  tableHeaderHeight,
-  searchFormHeight,
-  paginationSpacing: PAGINATION_SPACING,
-})
-
 const showPagination = computed(() => props.pagination && !isEmpty.value)
 
 // USelect 需要明确的 computed 绑定以确保响应式更新
@@ -355,7 +324,30 @@ const emit = defineEmits<{
   (e: 'selection-change', selection: any[]): void
 }>()
 
-const columnPinning = defineModel<Record<string, string[]>>('columnPinning')
+const columnPinning = defineModel<Record<string, string[]>>('columnPinning', { default: () => ({ left: [], right: [] }) })
+
+/// 兼容 ColumnOption.fixed：自动转换为 UTable 的 columnPinning
+const fixedPinning = computed(() => {
+  const left: string[] = []
+  const right: string[] = []
+  for (const col of props.columns ?? []) {
+    const ext = col as ColumnOption
+    const key = (ext.accessorKey ?? (col as any).id) as string | undefined
+    if (!key) continue
+    if (ext.fixed === true || ext.fixed === 'left') left.push(key)
+    else if (ext.fixed === 'right') right.push(key)
+  }
+  return { left, right }
+})
+
+watch(fixedPinning, (fixed) => {
+  if (!fixed.left.length && !fixed.right.length) return
+  const current = columnPinning.value ?? {}
+  const left = Array.from(new Set([...(current.left ?? []), ...fixed.left]))
+  const right = Array.from(new Set([...(current.right ?? []), ...fixed.right]))
+  if (JSON.stringify(left) === JSON.stringify(current.left ?? []) && JSON.stringify(right) === JSON.stringify(current.right ?? [])) return
+  columnPinning.value = { ...current, left, right }
+}, { immediate: true })
 
 // 受控展开状态（树形子行 + 行详情共用）
 const expandedModel = defineModel<Record<string, boolean>>('expanded', { default: () => ({}) })
@@ -470,18 +462,6 @@ const scrollToTop = () => {
 
 const handleSizeChange = (val: number) => emit('pagination:size-change', val)
 const handleCurrentChange = (val: number) => { emit('pagination:current-change', val); scrollToTop() }
-
-const findPageElements = () => {
-  const el = document.getElementById('m-table-header')
-  tableHeaderRef.value = el ?? undefined
-  const sf = document.getElementById('m-search-form')
-  searchFormRef.value = sf ?? undefined
-}
-
-watchEffect(() => {
-  void props.data?.length
-  nextTick(() => findPageElements())
-}, { flush: 'post' })
 
 defineExpose({ scrollToTop, uTableRef })
 </script>

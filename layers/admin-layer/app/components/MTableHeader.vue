@@ -1,6 +1,6 @@
 <!-- 表格头部，包含表格大小、刷新、全屏、列设置、其他设置 -->
 <template>
-  <div id="m-table-header" class="flex justify-between py-[6px]">
+  <div id="m-table-header" class="flex shrink-0 justify-between py-[6px]">
     <div class="flex flex-wrap gap-2">
       <slot name="left" />
     </div>
