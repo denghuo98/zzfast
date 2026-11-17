@@ -42,12 +42,14 @@ type VerifyCodeConfig struct {
 
 // VerifyCodeSceneConfig 单个验证码场景配置。
 type VerifyCodeSceneConfig struct {
-	Scene            string `json:"scene"         dc:"场景标识，如 login / high_risk"`
-	Name             string `json:"name"          dc:"场景名称"`
-	Template         string `json:"template"      dc:"短信模板 ID（阿里云 TemplateCode / 腾讯云 TemplateId）"`
-	AuthOnly         bool   `json:"authOnly"      dc:"仅允许登录后调用"`
-	RequireCaptcha   bool   `json:"requireCaptcha" dc:"发送前是否校验图形验证码"`
-	AllowTargetInput bool   `json:"allowTargetInput" dc:"登录后是否允许指定手机号（如换绑手机）"`
+	Scene             string            `json:"scene"         dc:"场景标识，如 login / high_risk"`
+	Name              string            `json:"name"          dc:"场景名称"`
+	Template          string            `json:"template"         dc:"短信模板 ID（阿里云 TemplateCode / 腾讯云 TemplateId）"`
+	TemplateParams    map[string]string `json:"templateParams"    dc:"短信模板额外参数"`
+	IncludeExpireTime bool              `json:"includeExpireTime" dc:"是否自动传入 time 模板参数（验证码有效期分钟）"`
+	AuthOnly          bool              `json:"authOnly"      dc:"仅允许登录后调用"`
+	RequireCaptcha    bool              `json:"requireCaptcha" dc:"发送前是否校验图形验证码"`
+	AllowTargetInput  bool              `json:"allowTargetInput" dc:"登录后是否允许指定手机号（如换绑手机）"`
 
 	// 以下字段为 0 时继承全局配置；每日上限设为 -1 表示不限
 	Length         int `json:"length"         dc:"验证码长度"`

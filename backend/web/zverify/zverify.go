@@ -17,6 +17,7 @@ import (
 	"math/big"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -31,7 +32,7 @@ import (
 
 // Sender 验证码发送器。
 type Sender interface {
-	Send(ctx context.Context, mobile, template, code string) error
+	Send(ctx context.Context, mobile, template, code string, params map[string]string) error
 }
 
 // SendError 表示短信供应商发送失败，调用方可据此对外返回通用错误并记录内部详情。
@@ -77,6 +78,10 @@ type Policy struct {
 	MaxAttempts    int
 	MaxIpDaily     int
 	MaxMobileDaily int
+	// TemplateParams 自定义短信模板参数。
+	TemplateParams map[string]string
+	// IncludeExpireTime 为 true 时自动传入 time 参数（TTL 分钟），供模板使用。
+	IncludeExpireTime bool
 }
 
 // Service 验证码服务。
@@ -193,7 +198,20 @@ func (s *Service) Send(ctx context.Context, p Policy, mobile, ip string) (expire
 		return 0, err
 	}
 
-	if err = s.sender.Send(ctx, mobile, p.Template, code); err != nil {
+	params := map[string]string{}
+	for k, v := range p.TemplateParams {
+		params[k] = v
+	}
+	if p.IncludeExpireTime {
+		if _, ok := params["time"]; !ok {
+			minutes := int((p.TTL + time.Minute - 1) / time.Minute)
+			if minutes < 1 {
+				minutes = 1
+			}
+			params["time"] = strconv.Itoa(minutes)
+		}
+	}
+	if err = s.sender.Send(ctx, mobile, p.Template, code, params); err != nil {
 		if decErr := s.withLocks(ctx, lockKeys, 5*time.Second, func() error {
 			rec, _ := s.getRecord(ctx, p.Scene, mobile)
 			if rec == nil || rec.Hash == codeHash {

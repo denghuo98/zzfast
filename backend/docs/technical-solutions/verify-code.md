@@ -31,7 +31,8 @@ system:
     scenes:
       - scene: "login"
         name: "登录验证"
-        template: "SMS_000000000"
+        template: "SMS_000000000"   # 模板示例：您的验证码是 ${code}，${time} 分钟内有效
+        includeExpireTime: true      # 模板含 ${time} 时开启
         authOnly: false
         requireCaptcha: true
         allowTargetInput: false
@@ -55,6 +56,12 @@ sms:
   tencentSdkAppId: ""
   tencentRegion: "ap-guangzhou"
 ```
+
+短信模板变量：
+
+- `code`：验证码，框架自动传入
+- `time`：验证码有效期（分钟），仅在场景 `includeExpireTime: true` 时自动传入；也可在 `templateParams` 中手动指定
+- 其他自定义变量可通过场景 `templateParams` 传入
 
 场景字段说明：
 

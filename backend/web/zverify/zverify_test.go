@@ -10,12 +10,14 @@ import (
 )
 
 type fakeSender struct {
-	code  string
-	calls int
+	code   string
+	params map[string]string
+	calls  int
 }
 
-func (s *fakeSender) Send(_ context.Context, _ string, _ string, code string) error {
+func (s *fakeSender) Send(_ context.Context, _ string, _ string, code string, params map[string]string) error {
 	s.code = code
+	s.params = params
 	s.calls++
 	return nil
 }
@@ -29,15 +31,16 @@ func newTestService(sender Sender) (*Service, *time.Time) {
 
 func testPolicy() Policy {
 	return Policy{
-		Scene:          "login",
-		Template:       "SMS_TEST",
-		HashKey:        "test-secret",
-		Length:         6,
-		TTL:            time.Minute * 5,
-		Cooldown:       time.Second * 60,
-		MaxAttempts:    3,
-		MaxIpDaily:     10,
-		MaxMobileDaily: 10,
+		Scene:             "login",
+		Template:          "SMS_TEST",
+		HashKey:           "test-secret",
+		Length:            6,
+		TTL:               time.Minute * 5,
+		Cooldown:          time.Second * 60,
+		MaxAttempts:       3,
+		MaxIpDaily:        10,
+		MaxMobileDaily:    10,
+		IncludeExpireTime: true,
 	}
 }
 
@@ -55,6 +58,9 @@ func TestSendAndVerify(t *testing.T) {
 	}
 	if len(sender.code) != 6 {
 		t.Fatalf("unexpected code length: %d", len(sender.code))
+	}
+	if sender.params["time"] != "5" {
+		t.Fatalf("unexpected time param: %q", sender.params["time"])
 	}
 
 	if err = svc.Verify(context.Background(), policy, "13800000001", sender.code); err != nil {

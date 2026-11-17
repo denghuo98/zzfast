@@ -2,6 +2,7 @@ package zsms
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -42,11 +43,15 @@ func (d *aliyunDriver) Send(ctx context.Context, msg Message) error {
 		}
 	}
 	timeoutMs := timeoutSec * 1000
+	paramJSON, err := buildAliyunTemplateParam(msg)
+	if err != nil {
+		return fmt.Errorf("zsms: 构建阿里云短信模板参数失败: %w", err)
+	}
 	req := &dysmsapi.SendSmsRequest{
 		PhoneNumbers:  tea.String(msg.Mobile),
 		SignName:      tea.String(signName(d.cfg, DriveAliyun)),
 		TemplateCode:  tea.String(msg.Template),
-		TemplateParam: tea.String(fmt.Sprintf(`{"code":%q}`, msg.Code)),
+		TemplateParam: tea.String(paramJSON),
 	}
 
 	resp, err := client.SendSmsWithOptions(req, &util.RuntimeOptions{
@@ -65,4 +70,19 @@ func (d *aliyunDriver) Send(ctx context.Context, msg Message) error {
 
 	g.Log().Infof(ctx, "zsms(aliyun): 短信已发送 mobile=%s template=%s", maskMobile(msg.Mobile), msg.Template)
 	return nil
+}
+
+func buildAliyunTemplateParam(msg Message) (string, error) {
+	params := map[string]string{"code": msg.Code}
+	for _, item := range msg.Params {
+		if item.Key == "" {
+			continue
+		}
+		params[item.Key] = item.Value
+	}
+	raw, err := json.Marshal(params)
+	if err != nil {
+		return "", err
+	}
+	return string(raw), nil
 }

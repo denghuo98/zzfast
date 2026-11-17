@@ -3,6 +3,7 @@ package common
 import (
 	"errors"
 	"net"
+	"sort"
 	"strings"
 	"time"
 
@@ -137,8 +138,20 @@ type smsSender struct {
 	driver zsms.Driver
 }
 
-func (s *smsSender) Send(ctx g.Ctx, mobile, template, code string) error {
-	return s.driver.Send(ctx, zsms.Message{Mobile: mobile, Template: template, Code: code})
+func (s *smsSender) Send(ctx g.Ctx, mobile, template, code string, params map[string]string) error {
+	keys := make([]string, 0, len(params))
+	for key := range params {
+		if key == "code" {
+			continue
+		}
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	extra := make([]zsms.TemplateParam, 0, len(keys))
+	for _, key := range keys {
+		extra = append(extra, zsms.TemplateParam{Key: key, Value: params[key]})
+	}
+	return s.driver.Send(ctx, zsms.Message{Mobile: mobile, Template: template, Code: code, Params: extra})
 }
 
 func buildPolicy(cfg *webSchema.VerifyCodeConfig, scene *webSchema.VerifyCodeSceneConfig) zverify.Policy {
@@ -150,15 +163,17 @@ func buildPolicy(cfg *webSchema.VerifyCodeConfig, scene *webSchema.VerifyCodeSce
 	maxMobileDaily := pickLimit(scene.MaxMobileDaily, cfg.MaxMobileDaily, zconsts.DefaultVerifyCodeMaxMobDaily)
 
 	return zverify.Policy{
-		Scene:          scene.Scene,
-		Template:       scene.Template,
-		HashKey:        cfg.Secret,
-		Length:         length,
-		TTL:            time.Duration(ttl) * time.Second,
-		Cooldown:       time.Duration(cooldown) * time.Second,
-		MaxAttempts:    maxAttempts,
-		MaxIpDaily:     maxIpDaily,
-		MaxMobileDaily: maxMobileDaily,
+		Scene:             scene.Scene,
+		Template:          scene.Template,
+		HashKey:           cfg.Secret,
+		Length:            length,
+		TTL:               time.Duration(ttl) * time.Second,
+		Cooldown:          time.Duration(cooldown) * time.Second,
+		MaxAttempts:       maxAttempts,
+		MaxIpDaily:        maxIpDaily,
+		MaxMobileDaily:    maxMobileDaily,
+		TemplateParams:    scene.TemplateParams,
+		IncludeExpireTime: scene.IncludeExpireTime,
 	}
 }
 

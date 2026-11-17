@@ -18,11 +18,21 @@ const (
 	DriveTencent = "tencent"
 )
 
+// TemplateParam 短信模板额外参数。
+type TemplateParam struct {
+	Key   string
+	Value string
+}
+
 // Message 待发送短信内容。
+//
+// Code 是验证码模板的 code 参数；Params 为额外模板参数。
+// 阿里云按 key/value 组装 TemplateParam JSON；腾讯云按 code、Params 顺序组装模板参数。
 type Message struct {
 	Mobile   string
 	Template string
 	Code     string
+	Params   []TemplateParam
 }
 
 // Driver 短信驱动。

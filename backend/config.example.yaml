@@ -85,7 +85,10 @@ system:
     scenes:
       - scene: "login"
         name: "登录验证"
-        template: "SMS_000000000"   # 短信模板 ID
+        template: "SMS_000000000"   # 短信模板 ID，模板变量：${code}、${time}（time 为有效分钟数）
+        includeExpireTime: false  # 模板含 ${time} 时设为 true，自动传入有效期（分钟）
+        # templateParams:          # 可选，额外模板参数
+        #   time: "5"
         authOnly: false             # 登录前使用
         requireCaptcha: true        # 发送前校验图形验证码
         allowTargetInput: false

@@ -46,7 +46,7 @@ func (d *tencentDriver) Send(ctx context.Context, msg Message) error {
 	req.SmsSdkAppId = common.StringPtr(d.cfg.TencentSdkAppId)
 	req.SignName = common.StringPtr(signName(d.cfg, DriveTencent))
 	req.TemplateId = common.StringPtr(msg.Template)
-	req.TemplateParamSet = common.StringPtrs([]string{msg.Code})
+	req.TemplateParamSet = common.StringPtrs(buildTencentParamValues(msg))
 	req.PhoneNumberSet = common.StringPtrs([]string{e164(msg.Mobile)})
 
 	resp, err := client.SendSmsWithContext(ctx, req)
@@ -63,4 +63,16 @@ func (d *tencentDriver) Send(ctx context.Context, msg Message) error {
 
 	g.Log().Infof(ctx, "zsms(tencent): 短信已发送 mobile=%s template=%s", maskMobile(msg.Mobile), msg.Template)
 	return nil
+}
+
+func buildTencentParamValues(msg Message) []string {
+	values := make([]string, 0, 1+len(msg.Params))
+	values = append(values, msg.Code)
+	for _, item := range msg.Params {
+		if item.Key == "" {
+			continue
+		}
+		values = append(values, item.Value)
+	}
+	return values
 }
