@@ -472,9 +472,10 @@ defineExpose({ scrollToTop, uTableRef })
   --m-table-bg: var(--ui-bg);
   /* 等价于 bg-elevated/50 叠在 --ui-bg 上的合成色 —— 让固定列与同行普通列深浅一致 */
   --m-table-bg-alt: color-mix(in oklab, var(--ui-bg-elevated) 50%, var(--ui-bg));
-  --m-table-shadow: rgb(0 0 0 / 0.15);
+  /* 固定列阴影：表头和 body 的背景不同，需要足够的对比度才能在白色单元格上可见 */
+  --m-table-shadow: rgb(0 0 0 / 0.18);
 }
-.dark .m-table { --m-table-shadow: rgb(0 0 0 / 0.45); }
+.dark .m-table { --m-table-shadow: rgb(0 0 0 / 0.5); }
 
 /* ---- 取消表格自身弹性滚动：仅作用于真正可滚动的轴，避免阻断页面滚动链 ---- */
 .m-table[data-overflow-x="true"] { overscroll-behavior-x: none; }
@@ -509,16 +510,22 @@ defineExpose({ scrollToTop, uTableRef })
   top: 0;
   bottom: -1px;
   width: 30px;
-  transition: box-shadow 0.3s;
+  opacity: 0;
+  transition: opacity 0.3s;
   pointer-events: none;
+  z-index: 1;
 }
-.m-table .m-cell-fix-left-last::after { left: 100%; }
-.m-table .m-cell-fix-right-first::after { right: 100%; }
+.m-table .m-cell-fix-left-last::after {
+  left: 100%;
+  background: linear-gradient(to right, var(--m-table-shadow), transparent 80%);
+}
+.m-table .m-cell-fix-right-first::after {
+  right: 100%;
+  background: linear-gradient(to left, var(--m-table-shadow), transparent 80%);
+}
 /* ping = 该侧有被滚动隐藏的内容时显示阴影 */
-.m-table[data-ping-left="true"] .m-cell-fix-left-last::after {
-  box-shadow: inset 10px 0 8px -8px var(--m-table-shadow);
-}
+.m-table[data-ping-left="true"] .m-cell-fix-left-last::after,
 .m-table[data-ping-right="true"] .m-cell-fix-right-first::after {
-  box-shadow: inset -10px 0 8px -8px var(--m-table-shadow);
+  opacity: 1;
 }
 </style>
